@@ -15,3 +15,4 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 - 🔭 I’m currently working on getting this Github repository set up and understood!
+- 🌱 I’m currently learning how to work with Github, Javascript, HTML and CSS
