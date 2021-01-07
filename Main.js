@@ -4,6 +4,7 @@
 /*TODO: A more complex auto-learn that lets you give detailed instructions on what level you want each skill and in what order.
 					ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
 */
+//TODO test if this shows up @The-Woodchuck
 /*
 TODO @The-Woodchuck
 Make auto-learn use exp/day and remaining to work out what to level next.
