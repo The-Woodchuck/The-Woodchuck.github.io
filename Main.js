@@ -1,3 +1,4 @@
+//Todo: Fix header collapse on crime table
 //Game speed and calculations
 
 function isAlive() {
