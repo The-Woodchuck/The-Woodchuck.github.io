@@ -1,4 +1,10 @@
 //Todo: Fix header collapse on crime table
+//Todo: When you change tabs it remembers the last scroll position of that tab.
+//Todo: A page to show some stats about the game. ie how many rebirths.
+/*Todo: A more complex auto-learn that lets you give detailed instructions on what level you want each skill and in what order.
+					ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
+*/
+
 //Game speed and calculations
 
 function isAlive() {
