@@ -1,0 +1,417 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="Style Flip.css">
+	
+    <title>Woodchuck</title>
+</head>
+<body class="w3-light-gray">
+    <div class="w3-margin"> 
+        <h1>Woodchuck</h1>
+        <div style="width: 1220px; height: calc(100vh)"> 
+            <div class="w3-white w3-padding scroll" style="width: 300px; height: calc(100vh); float: left">
+                <span id="deathText">
+                    <div style="font-size: large; color: red">You ded</div>
+                    <div class="sidebar-element" style="color: gray">Use the amulet to rebirth</div>
+                </span>
+
+                <div class="" style="font-size: large">Age <span id="ageDisplay">18</span> Day <span id="dayDisplay">0</span></div>
+                <div class="sidebar-element" style="color: gray display: none">Lifespan: <span id="lifespanDisplay">70</span> years</div>
+                
+                <button id="pauseButton" class="w3-button button sidebar-element" onClick="setPause()">Pause</button>
+
+                <span id="automation" class="inline" style="margin-left: 8px; vertical-align:middle ">
+                    <span>
+                        <div class="inline">Auto-promote</div>
+                        <input type="checkbox" class="inline" id="autoPromote">
+                    </span>
+                    </br>
+                    <span>
+                        <div class="inline">Auto-learn</div>
+                        <input type="checkbox" class="inline sidebar-element" id="autoLearn">
+                    </span>
+                </span>
+				<div class="spacer"></div>
+                <div style="font-size: large" id="currentJobDisplay">
+                </div>
+                <div style="font-size: large" id="currentSkillDisplay">
+                </div>
+                <div style="color: gray">Current job/skill</div>
+
+				<div class="spacer"></div>
+                <div style="font-size: large" id="moneyDisplay">
+                </div>
+                <div style="color: gray">Available money</div>
+
+                <ul class="sidebar-element" style="padding-left: 20px;">
+                    <li><span style="color: rgb(22, 125, 173)">Net/day: </span ><b id="signDisplay"></b><span id="netDisplay">
+                    </span></li>
+                    <li><span style="color: green">Income/day: </span><span id="incomeDisplay">
+                    </span></li>
+                    <li><span style="color: red">Expense/day: </span><span id="expenseDisplay">
+                    </span></li>
+                </ul>
+
+				<div class="spacer"></div>
+                <div style="font-size: large"><span style="color: rgb(15, 105, 207)">Energy: </span><span id="energyDisplay"></span></div>
+                <div style="color: gray" class="sidebar-element">Affects all xp gain</div>
+
+				<div class="smallspacer"></div>
+                <span id="evilInfo">
+                    <div style="font-size: large display: none"><span style="color: rgb(200, 0, 0)">Evil: </span><span id="evilDisplay"></span></div>
+                    <div style="color: gray" class="sidebar-element">Affects dark magic xp gain</div>
+                </span>
+
+                <span id="timeWarping">
+					<div class="smallspacer"></div>
+                    <div style="font-size: large"><span style="color: rgb(177, 30, 190)">Time warping: </span><span id="timeWarpingDisplay"></span></div>
+                    <div style="color: gray">Affects game speed</div>
+                    <button id="timeWarpingButton" class="w3-button button sidebar-element" style="margin-top: 5px; width:150px" onClick="setTimeWarping()">Enable warp</button>
+                </span>
+
+                <span id="debug" style="display:none">
+					<div class="smallspacer"></div>
+                    <div style="font-size: large"><span style="color: rgb(114, 32, 182)">Debug speed: </span><span id="debugSpeedDisplay">1</span></div>
+                    <input id="debugSlider" type="range" min="0" max="100" value="0">
+                    <div style="color: gray" class="sidebar-element">Affects game speed</div>
+                </span>
+            </div>
+
+            <div class="w3-white w3-margin-left" style="width: 900px; height: 40px; float: left">
+                <div class="w3-button w3-bar-item tabButton" id="jobTabButton" onClick="setTab(this, 'jobs')">Jobs</div>
+                <div class="w3-button w3-bar-item tabButton" id="skillsTabButton" onClick="setTab(this, 'skills')">Skills</div>
+                <div class="w3-button w3-bar-item tabButton" id="shopTabButton" onClick="setTab(this, 'shop')">Shop</div>
+                <div class="w3-button w3-bar-item tabButton" id="crimeTabButton" onClick="setTab(this, 'crime')">Crime</div>
+                <div class="w3-button w3-bar-item tabButton" id="rebirthTabButton" onClick="setTab(this, 'rebirth')">Amulet</div>
+                <div class="w3-button w3-bar-item tabButton" id="settingsTabButton" onClick="setTab(this, 'settings')" style="float: right">Settings</div>
+                <div class="w3-button w3-bar-item tabButton" id="aboutTabButton" onClick="setTab(this, 'about')" style="float: right">About</div>
+                <div class="w3-button w3-bar-item tabButton" id="todoTabButton" onClick="setTab(this, 'todo')" style="float: right">Todo</div>
+            </div>
+
+            <div class="w3-white w3-margin-left w3-margin-top w3-padding scroll" style="width: 900px; height: calc(100vh - 56px); float: left">
+                <template class="headerRowStatTemplate">
+                    <tr>
+                        <th class="category" style="width: 250px">Stat</th>
+                        <th><div class="ownlevel" style="width: 100px">Stat Level</div></th>
+                        <th><div class="henchmanlevel" style="width: 100px">Henchman</div></th>
+                        <th><div class="villainlevel" style="width: 100px">Villain</div></th>
+                   </tr>
+                </template>
+                <template class="headerRowTaskTemplate">
+                    <tr>
+                        <th class="category" style="width: 250px">Job</th>
+                        <th>Level</th>
+                        <th class="valueType">Value type</th>
+                        <th>XP/day</th>
+                        <th>XP left</th>
+                        <th class="maxLevel">Max level</th>
+                    </tr>
+                </template>
+
+                <template class="headerRowItemTemplate">
+                    <tr>
+                        <th class="category" style="width: 250px">Item</th>
+                        <th style="width: 100px">Active</th>
+                        <th style="width: 250px">Effect</th>
+                        <th>Expense/day</th>
+                    </tr>
+                </template>
+
+                <template class="rowStatTemplate">
+                    <tr>
+                        <td>
+							<div class="tooltip">
+								<span class="name">Stat</span>
+								<span class="tooltipText">Tooltip goes here</span>
+							</div>
+						</td>
+						
+                        <td><div class="ownlevel">Stat Level</div></td>
+                        <td><div class="henchmanlevel">Henchman</div></td>
+                        <td><div class="villainlevel">Villain</div></td>
+                    </tr>
+                </template>
+				
+                <template class="rowTaskTemplate">
+                    <tr>
+                        <td>
+                            <div class="progress-bar progressBar tooltip">
+                                <div class="progress-fill progressFill"></div>
+                                <div class="progress-text name">Task</div>
+                                <span class="tooltipText"></span>
+                            </div>
+                        </td>
+                        <td class="level">Level</td>
+                        <td class="value">
+                            <div class="effect"></div>
+                            <div class="income">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </td>
+                        <td class="xpGain">Xp/day</td>
+                        <td class="xpLeft">Xp left</td>
+                        <td class="maxLevel">Max level</td>
+                    </tr>
+                </template>
+
+                <template class="rowItemTemplate">
+                    <tr>
+                        <td>
+                            
+                            <button class="button item-button tooltip">
+                                <span class="name"></span>
+                                <span class="tooltipText">tooltip</span>
+                            </button>
+                            
+                        </td>
+                        <td>
+                            <div class="w3-border w3-circle" style="width: 40px; height: 40px; padding: 7px">
+                                <div class="active w3-circle" style="width: 24px; height: 24px;"></div>
+                            </div>
+                        </td>
+                        <td class="effect"></td>
+                        <td class="expense">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </td>
+                    </tr>
+                </template>
+
+                <template class="requiredRowTemplate">
+                    <td class="w3-text-gray" style="padding-left: 16px" colspan=5>
+                        Required: 
+                        <span class="value" colspan=5>
+                            <span class="levels"></span>
+                            <span class="coins">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                            <span style="color: rgb(200, 0, 0)" class="evil"></span>
+                        </span>
+                    </td> 
+                </template>
+
+                <div class="tab" id="jobs">
+                    <table id="jobTable" class="w3-table w3-bordered">
+                    </table>
+                </div>
+
+                <div class="tab" id="skills">
+                    <table id="skillTable" class="w3-table w3-bordered">
+                    </table>
+                </div>
+
+                <div class="tab" id="shop">
+                    <table id="itemTable" class="w3-table w3-bordered">
+                    </table>
+                </div>
+
+                <div class="tab" id="crime">
+                    <table >
+					<tr>
+					<td style="width: 100px"></td>
+					<td style="width: 200px">
+					 <button id="fightHenchmanButton" class="w3-button button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="fightHenchman()">Fight Henchman</button>
+					</td>
+					<td style="width: 200px">
+					 <button id="fightVillainButton" class="w3-button button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="placeholder()">Fight Villain</button>
+					</td>
+					
+					</tr>
+					<tr>
+					<td></td>
+					<td>
+						 <span class="inline">
+							<div class="inline">Auto-fight henchman</div>
+							<input type="checkbox" class="inline" id="autoFightHenchman">
+						</span>	 
+					</td>
+					<td>
+						 <span>
+							<div class="tooltip">
+								<span class="tooltipText">0 for manual, otherwise the maximum tier SuperVillain that will be automatically fought</span>
+						 
+								<div class="inline">Auto-fight villain</div>
+								<input type="number" id="villain" name="quantity" min="0" max="0" step="1" placeholder="0">
+								<div style="color: gray">Max tier</div>
+							</div>
+						</span>	 
+					</td>
+					</tr>
+                    </table>
+
+					 
+                    <table id="statTable" class="w3-table w3-bordered">
+                    </table>
+                </div>
+
+                <div class="tab" id="rebirth">
+                    <ul>
+                        <li style="display:none" id="rebirthNote2">
+                                By holding the eyeball, and chanting  
+								<i>
+									<p>
+									"How much wood would a woodchuck chuck
+									<p>
+									if a woodchuck could chuck wood?    
+									<p>
+									A woodchuck would chuck all the wood he could
+									<p>
+									if a woodchuck could chuck wood." 
+									<p>
+								</i>
+								The amulet's glow increases with every word - nearly blinding you. You realise if you chant it 3 times you will enter a timeloop (because magic) and restart your quest to fight criminals.
+								
+                                However, you will gain <b>xp multipliers</b> for your jobs and skills equivalent to: <b>the maximum level of the skill or job / 10.</b>
+                                
+								This means you will learn everything again much more quickly than you did in your previous life. 
+								<p>
+	
+                            <button id="rebirthButton" class="w3-button button" style="margin-bottom: 8px; margin-top: 8px" onClick="rebirthOne()">Chant the woodchuck thing 3 times</button>
+							</li>
+							
+							<li style="display:none" id="rebirthNote1">
+                            <div style="margin-bottom: 8px">
+                                On your 19<sup>th</sup> birthday, you have come to know the amulet intimately.
+								<p>
+								Come on, get your mind out of the gutter. I mean, you know every bit of it. The etching is clearly a woodchuck. How much wood would a woodchuck chuck - yeah that one.
+								<p>
+								Training every day, you are getting stronger, faster, smarter. 
+								<p>
+								You want to, no have to go and fight criminals. But to do that, you have to keep getting stronger!
+                            </div>
+							</li>
+							<li>
+								On your 18<sup>th</sup> birthday a strange amulet materialises in your room.
+								<p>
+								You would not have noticed it, as you were glued to your phone. Not literally glued, you idiot - this is gonna be a long day isn't it? Don't make me reach through the fourth wall and smack you!
+								
+								But the materialising amulet also made a noise, and as you do not want anyone to catch you with your, uhm homework, you quickly put your phone away and check it out. 
+								<p>
+								The amulet has an etching of a strange animal. A rodent perhaps.
+								<p>
+								The amulet emits a strange glow. Reaching for it, you realise if you touch it, your life will never be the same. 
+								<p>
+								But as your life sucks, you reckon what do you have to lose? You are a physical weakling in a city tormented by a supervillain.
+								<p>
+								Touching it fills you with ... something™. But what? 
+								
+								
+							</li>
+                            </br>
+                            </br>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab" id="todo">
+				<li>
+					Fix header collapse on crime table
+				</li>
+				<li>
+					When you change tabs it remembers the last scroll position of that tab.
+				</li>
+				<li>
+					A page to show some stats about the game. ie how many rebirths.
+				</li>
+				<li>
+					A more complex auto-learn that lets you give detailed instructions on what level you want each skill and in what order.
+					ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
+				</li>
+				<li>
+					Make auto-learn use exp/day and remaining to work out what to level next.
+					Add a filter to turn on and off skills to learn.
+					etc
+				</li>
+				<li>
+					Add somewhere to see multipliers for skills/Jobs
+				</li>
+				<li>
+					Many people don't understand the max level calculation.
+					Add FAQ + multiplier breakdown
+				</li>
+				</div>
+                <div class="tab" id="about">
+				<h2>The dev:</h2>
+				Starting out I had 0 javascript experience. Well not 0, I used some to automate some games (Trimps being the one I spent most time on), but nothing proper.
+				
+				I will spend as much time as I can on the game, but I have a fulltime job and a family though so it will be slow (same goes for conversations on Discord)
+				<h3>The Woodchuck has been inspired by:</h3>
+				<li>
+				Obviously <a href="https://www.kongregate.com/games/egosummo/groundhog-life">Groundhog Life</a>
+ 
+				</li>
+				<li>
+				<a href="https://ihtasham42.github.io/progress-knight/">Progress Knight</a>. Double credit to the dev IC for allowing me to <strike>steal</strike> borrow some of his code!
+				</li>
+				<li>
+				<a href="https://www.kongregate.com/games/boart2k/endless-training">Endless Training</a> & <a href="https://www.kongregate.com/games/boart2k/endless-training-2">Endless Training 2</a>.
+				Especially the concept of training, getting stronger and fighting enemies. 
+				</li>
+				<li>
+				<a href="https://www.kongregate.com/games/DirkF17/absorber">Absorber</a>
+				</li>
+				<h3>So, is this just <strike>stolen</strike> borrowed ideas from other games</h3>
+				I hope not! Although Steven Wright did say "To steal ideas from one person is plagiarism; to steal from many is research." I hope that the multiple paths, fighting enemies in the background (rather than having every build require attack speed for grinding fast) at least bring something new!
+                <h2>Version history</h2>
+                <h3>V0.01</h3>
+ 				<li>
+					First public release! Wooooooooooooooooo! It has:
+					<UL>
+					<li >
+						<strike>Stolen</strike> Adapted the job system and created 19 jobs (will probably change before I release 0.01, let's see if I remember to update this!
+					</li>
+					<li >
+						CSS with dark theme selector. Colour scheme sucks, but at least it is easily adaptable. All of my programming experience is focused on calculations - setting colours? Naah, that is where the corporate colour scheme comes in.
+					</li>
+					</Ul>
+				</li>
+                </div>
+                <div class="tab" id="settings">
+                    <ul>
+                        <li>
+                            <h2>Import/export save</h2>
+                            <button class="w3-button button borderbutton" onClick="importGameData()">Import</button>
+                            <button class="w3-button button borderbutton" onClick="exportGameData()">Export</button>
+                            <form style="margin-top: 16px"> 
+                                <input id="importExportBox" type="text" style="width:300px; height:30px"></input>
+                            </form>
+                        </li>
+                        <li>
+                            <h2>Hard reset game</h2>
+                            <button class="w3-button button w3-red borderbutton" onClick="resetGameData()">Reset</button>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+							<div style="float: left;">
+								<h2>Theme Switcher</h3>
+								<label id="switch" class="switch">
+									<input type="checkbox" onchange="toggleTheme()" id="slider">
+									<span class="slider round"></span>
+								</label>
+							</div>
+						</li>
+                    </ul>
+					
+					
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="classes.js"></script>
+<script type="text/javascript" src="init.js"></script>
+<script type="text/javascript" src="UI Update.js"></script>
+<script type="text/javascript" src="Main.js"></script>
+
+</html>
