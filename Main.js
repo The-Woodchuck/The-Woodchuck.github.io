@@ -5,7 +5,7 @@
 					ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
 */
 /*
-TODO
+TODO @The-Woodchuck
 Make auto-learn use exp/day and remaining to work out what to level next.
 Add a filter to turn on and off skills to learn.
 */
