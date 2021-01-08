@@ -20,8 +20,9 @@ var gameData = {
 	energy: 1,
 	heroname: "The Wombat",
     requirements: {},
-    currentVillain: 0,
+    currentVillain: -1,
     villains: [],
+    villainWin : "",
     combatXP: 0
 }
 

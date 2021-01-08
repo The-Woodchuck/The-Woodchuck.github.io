@@ -237,32 +237,33 @@
 					<tr>
 					<td style="width: 100px"></td>
 					<td style="width: 200px">
-					 <button id="fightHenchmanButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="fightHenchman()">Fight Henchman</button>
-					</td>
-					<td style="width: 200px">
-					 <button id="fightVillainButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="placeholder()">Fight Villain</button>
-					</td>
-					
-					</tr>
-					<tr>
-					<td></td>
-					<td>
-						 <span class="inline">
-							<div class="inline">Auto-fight henchman</div>
-							<input type="checkbox" class="inline" id="autoFightHenchman">
-						</span>	 
-					</td>
-					<td>
-						 <span>
-							<div class="tooltip">
-								<span class="tooltipText">0 for manual, otherwise the maximum tier SuperVillain that will be automatically fought</span>
-						 
-								<div class="inline">Auto-fight villain</div>
+					    <button id="fightHenchmanButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="fightHenchman()">Fight Henchman</button>
+                        <div>
+                            <span class="inline">
+                                <div class="inline">Auto-fight henchman</div>
                                 <input type="checkbox" class="inline" id="autoFightHenchman">
-							</div>
-						</span>	 
-					</td>
-					</tr>
+                            </span>	 
+                        </div>
+                    </td>
+					<td style="width: 200px">
+					    <button id="fightVillainButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="placeholder()">Fight Villain</button>
+                        <div>
+                                <div class="tooltip">
+                                    <span class="tooltipText">TBC tooltip</span>
+                                    <div class="inline">Auto-fight villain</div>
+                                    <input type="checkbox" class="inline" id="autoFightHenchman">
+                                </div>
+                    </td>
+                    <td style="width: 200px">
+                        <input type="radio" id="killVillain" name="Villain" value="kill">
+                        <label for="killVillain">Kill villain</label><br>
+                        <input type="radio" id="looseVillain" name="Villain" value="loose">
+                        <label for="looseVillain">Let loose</label><br>
+                        <input type="radio" id="imprisonVillain" name="Villain" value="Imprison">
+                        <label for="other">Imprison</label>                         
+                    </td>
+					
+
                     </table>
 
 					 
@@ -400,6 +401,7 @@
 </body>
 
 <script type="text/javascript" src="classes.js"></script>
+<script type="text/javascript" src="combat.js"></script>
 <script type="text/javascript" src="init.js"></script>
 <script type="text/javascript" src="UI Update.js"></script>
 <script type="text/javascript" src="Main.js"></script>

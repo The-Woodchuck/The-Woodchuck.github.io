@@ -1,3 +1,16 @@
+function isAlive() {
+	
+    var deathText = document.getElementById("deathText")
+    if (!gameData.alive) {
+        deathText.classList.remove("hidden")
+    }
+    else {
+        deathText.classList.add("hidden")
+    }
+    return gameData.alive
+}
+
+
 //UI
 function format(number,decimals="auto") {
     // what tier? (determines SI symbol)
@@ -29,8 +42,9 @@ function placeholder(){}
 
 function updateStatRows() {
     for (key in gameData.stats) {
-        var stat = gameData.stats[key].value
-		var villainstat = gameData.villains[gameData.currentVillain].stats[key].value
+		var stat = gameData.stats[key].value
+		if (gameData.currentVillain>=0)
+			var villainstat = gameData.villains[gameData.currentVillain].stats[key].value
 
         var row = document.getElementById("row " + key)
         row.getElementsByClassName("ownlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*stat,2)+"%":(Number.isInteger(stat)?stat:format(stat,2))
@@ -38,21 +52,37 @@ function updateStatRows() {
 			var henchmanstat = gameData.henchman.stats[key].value
 			row.getElementsByClassName("henchmanlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*henchmanstat,2)+"%":(Number.isInteger(henchmanstat)?(henchmanstat):(format(henchmanstat,2)))
 		}
+
 		if(["Henchman find","Villain find"].includes(key)){
-			row.getElementsByClassName("villainlevel")[0].textContent = ""
+			if (gameData.currentVillain>=0)
+				row.getElementsByClassName("villainlevel")[0].textContent = ""
 			row.getElementsByClassName("henchmanlevel")[0].textContent = ""
 		}
 		else
-			row.getElementsByClassName("villainlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*villainstat,2)+"%":(Number.isInteger(villainstat)?villainstat:format(villainstat,2)) 
+			if (gameData.currentVillain>=0)
+				row.getElementsByClassName("villainlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*villainstat,2)+"%":(Number.isInteger(villainstat)?villainstat:format(villainstat,2)) 
 	}
 	
-	Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
 	
-		gameData.henchmanCount>0 ? item.classList.remove("hidden") : item.classList.add("hidden")
+	Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
+		gameData.currentVillain>=0 ? item.classList.remove("hidden") : item.classList.add("hidden")
 	});
+	if(!document.getElementById("autoFightHenchman").checked){
+		gameData.henchmanCount>0 ? document.getElementById("fightHenchmanButton").classList.remove("hidden") : document.getElementById("fightHenchmanButton").classList.add("hidden")
+		Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
+			gameData.henchmanCount>0 ? item.classList.remove("hidden") : item.classList.add("hidden")
+		});
+		}
+	else{
+		document.getElementById("fightHenchmanButton").classList.add("hidden")
+		Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
+			 item.classList.add("hidden")
+		});
 	
-	gameData.henchmanCount>0 ? document.getElementById("fightHenchmanButton").classList.remove("hidden") : document.getElementById("fightHenchmanButton").classList.add("hidden")
-	
+
+	}
+	gameData.currentVillain>=0	? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
+
 }
 
 function updateTaskRows() {
@@ -396,12 +426,12 @@ function toggleTheme() {
 
 // Immediately invoked function to set the theme on initial load
 (function () {
-	if (localStorage.getItem('theme') === 'theme-dark') {
-		setTheme('theme-dark');
-		document.getElementById('slider').checked = false;
-	} else {
+	if (localStorage.getItem('theme') === 'theme-light') {
 		setTheme('theme-light');
-	  document.getElementById('slider').checked = true;
+		document.getElementById('slider').checked = true;
+	} else {
+		setTheme('theme-dark');
+	  document.getElementById('slider').checked = false;
 	}
 })();
 

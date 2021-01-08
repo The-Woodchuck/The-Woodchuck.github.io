@@ -1,16 +1,4 @@
 
-function isAlive() {
-	
-    var deathText = document.getElementById("deathText")
-    if (!gameData.alive) {
-        deathText.classList.remove("hidden")
-    }
-    else {
-        deathText.classList.add("hidden")
-    }
-    return gameData.alive
-}
-
 
 function getGameSpeed() {
     //var timeWarping = gameData.taskData["Time warping"]
@@ -65,7 +53,6 @@ function createData(data, baseData) {
 }
 
 function createEntity(data, entity) {
-	//console.log(data,entity)
     if ("income" in entity) {data[entity.name] = new Job(entity)}
     else if ("maxXp" in entity) {data[entity.name] = new Skill(entity)}
     else {data[entity.name] = new Item(entity)}
@@ -76,45 +63,6 @@ function RandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function TrainVillainSkills(villain){
-	var XP = villain.XPperDay/Object.keys(villain.taskData).length
-	for(skill in villain.taskData) {
-		villain.taskData[skill].increaseXp(XP)
-	}
-}
-
-function newHenchman(){
-	var sourceVillain = gameData.villains[RandomInt(0,gameData.villains.length-1)]
-	var henchman = {
-			taskData: {},
-			stats:{}
-		}
-	createData(henchman.taskData, skillBaseData)
-	for(skill in henchman.taskData) {
-		henchman.taskData[skill].level = Math.max(1,Math.floor(sourceVillain.taskData[skill].level *(Math.random()*(0.6-0.2)+0.2)))
-	}
-	//console.log(henchman.taskData.Reading.level)
-	calcStats(henchman)
-	//console.log(henchman.taskData.Reading.level)
-	return henchman
-}
-
-function newVillain(tier){
-		var villain = {
-			taskData: {},
-			XPperDay: tier*100,
-			stats:{}
-		}
-		//createData(villain.taskData, jobBaseData)
-		createData(villain.taskData, skillBaseData)
-		XPperSkill = villain.XPperDay*(gameData.days - 18*365-1) / Object.keys(villain.taskData).length
-		for(skill in villain.taskData) {
-			villain.taskData[skill].xp = XPperSkill
-			villain.taskData[skill].increaseXp()
-		}
-		return villain
 }
 
 function getEnergy()
@@ -224,6 +172,7 @@ function setSkillWithLowestMaxXp() {
     skillWithLowestMaxXp = gameData.taskData[skillName]
 }
 
+
 function autoLearn() {
     if (!autoLearnElement.checked || !skillWithLowestMaxXp) return
     gameData.currentSkill = skillWithLowestMaxXp
@@ -247,28 +196,23 @@ function calcStats(target){
 		})
 		target.stats[stat].value *= multi
 	})
-	calculatedStat(target, "Hit points", target.stats["Endurance"].value*10)
-	calculatedStat(target, "Min damage", 1)
-	calculatedStat(target, "Max damage", target.stats["Strength"].value)
 	calculatedStat(target, "Henchman find", Math.log10(target.stats["Intelligence"].value)*
-									Math.log10(1+target.stats["Speed"].value) * 0.03
-				  )
+									Math.log10(1+target.stats["Speed"].value) * 0.03)
 	
 	calculatedStat(target, "Villain find", Math.log10(target.stats["Intelligence"].value)*
-				  Math.log10(1+target.stats["Speed"].value) * 0.0003
-)
-calculatedStat(target, "Attack speed",  Math.max(1, Math.min(50,Math.log10(target.stats["Speed"].value))))
-	
-//	HenchmanFind = Math.log10(intelligence) * Math.log10(speed) * 0.03 * trainee.TimeSpent.getbyname("Fight Crime").Amount
-	//	trainee.VillainFind  = Math.log10(intelligence) * Math.log10(speed) * 0.003 * trainee.TimeSpent.getbyname("Fight Crime").Amount
+				  Math.log10(1+target.stats["Speed"].value) * 0.0003)
 
 	
-	
+	combatMult = gameData.taskData["Combat Experience"].getEffect()
+	calculatedStat(target, "Hit points", target.stats["Endurance"].value*10 * combatMult)
+	calculatedStat(target, "Min damage", 1 * combatMult)
+	calculatedStat(target, "Max damage", target.stats["Strength"].value * combatMult)
+	calculatedStat(target, "Attack speed",  Math.max(1, Math.min(50,Math.log10(target.stats["Speed"].value * combatMult))))
+
 }
 
 function addMultipliers() {
     for (taskName in gameData.taskData) {
-		//console.log (taskName)
         var task = gameData.taskData[taskName]
 
         task.xpMultipliers = []
@@ -333,35 +277,6 @@ function Random(min, max) {
 }
 
 
-//core
-
-function fight(enemy){
-	playerHP = gameData.stats["Hit points"].value
-	enemyHP = enemy.stats["Hit points"].value
-	tickspeed = 20
-	playerDelay = 1000/gameData.stats["Attack speed"].value
-	enemyDelay = 1000/enemy.stats["Attack speed"].value
-	playerReady = 0
-	enemyReady = 0
-	while (Math.min(playerHP,enemyHP)>0)
-	{
-		playerReady += tickspeed
-		enemyReady += tickspeed
-		if(enemyReady>=enemyDelay)
-		{
-			enemyReady -= enemyDelay
-			playerHP -= Random(enemy.stats["Min damage"].value, enemy.stats["Max damage"].value)
-		}
-		if(playerReady>=playerDelay)
-		{
-			playerReady -= playerDelay
-			enemyHP -= Random(gameData.stats["Min damage"].value, gameData.stats["Max damage"].value)
-		}
-	}
-	if(playerHP <0) return false
-	return true
-}
-
 function rebirthReset() {
     setTab(document.getElementById("jobsTabButton"), "jobs")
 
@@ -371,7 +286,7 @@ function rebirthReset() {
 
 	gameData.henchmanCount = 0
 	gameData.villains=[villain=newVillain(1)]
-	gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
+	gameData.currentVillain = -1 //RandomInt(0,gameData.villains.length-1)
 
 
     gameData.currentJob = gameData.taskData["Beggar"]
@@ -402,20 +317,6 @@ function rebirthOne(){
     rebirthReset()
 }
 
-function fightHenchman(){
-	if(fight(gameData.henchman))
-	{
-		var combatXP =0;
-		statCategories["Base stats"].forEach(function(stat){combatXP+=gameData.henchman.stats[stat].value})
-		//console.log(CombatXP)
-		gameData.taskData["Combat Experience"].increaseXp(combatXP/applySpeed(1))
-		
-		gameData.henchmanCount = 0
-		
-	}
-	else
-		gameData.alive=false
-}
 
 function update(){
 	//doCurrentTask()
@@ -425,33 +326,44 @@ function update(){
 	doCurrentTask(gameData.currentSkill)
 	calcStats(gameData)
 	setSkillWithLowestMaxXp()
+	autoFightHenchman()
 	autoLearn()
 	
-
-	if(gameData.villains.length == 0){		
-		gameData.villains=[villain=newVillain(1)]
-		gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
-   }
-
-   TrainVillainSkills(gameData.villains[0])
-   calcStats(gameData.villains[0])
-   if(	gameData.henchmanCount == 0){
-		var hf = gameData.stats["Henchman find"].value
-		while(Math.random() < hf)
-		{
-			gameData.henchmanCount +=1
-			hf-=1
+	if(gameData.paused == false){
+		if(gameData.villains.length == 0){		
+			gameData.villains=[villain=newVillain(1)]
+			gameData.currentVillain = -1 //RandomInt(0,gameData.villains.length-1)
 		}
-		if(gameData.henchmanCount>0)
-			gameData.henchman = newHenchman()
-	}
 
+		TrainVillainSkills(gameData.villains[0])
+		calcStats(gameData.villains[0])
+		if(	gameData.henchmanCount == 0){
+			var hf = gameData.stats["Henchman find"].value
+			while(Math.random() < hf)
+			{
+				gameData.henchmanCount +=1
+				hf-=1
+			}
+			if(gameData.henchmanCount>0)
+				gameData.henchman = newHenchman()
+		}
+		if(	gameData.currentVillain < 0)
+			if(Math.random() < gameData.stats["Villain find"].value)
+				gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
+	}
 	updateUI()
 }
 
 function loadGame(){
+	if(document.getElementById("killVillain").checked) gameData.villainWin = "kill"
+	if(document.getElementById("looseVillain").checked) gameData.villainWin = "loose"
+	if(document.getElementById("imprisonVillain").checked) gameData.villainWin = "imprison"
+	if (gameData.villainWin ==	 ""){
+		gameData.villainWin = "loose"
+		document.getElementById("looseVillain").checked = true
+	}
+	
 }
-
 
 createData(gameData.taskData, jobBaseData)
 createData(gameData.taskData, skillBaseData)

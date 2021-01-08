@@ -25,6 +25,8 @@ Add age mechanic
     - multiplier (<1) to physical after mental 50
     - add stuff to delay start
     
+Saving
+
 ----------Maintenance------------
 Split code over more useful categories (main.js and UI update is getting a bit long)
 Move all colours to CSS
@@ -38,9 +40,13 @@ Clean up CSS!
 
 Host: https://pages.github.com/
     go to folder project
+    run 
     
-
     git clone https://github.com/The-Woodchuck/The-Woodchuck.github.io
+    cd the-woodchuck.github.io
+    git add --all
+    git commit -m "Initial commit"
+    git push -u origin main
 
 Automation tab
     Auto pause: on new job /skill unlocks
