@@ -128,7 +128,7 @@ function hideEntities() {
 }
 function updateUI() {
 //	document.getElementById("debug").style.display = "none"
-	document.getElementById("timeWarping").style.display = "none"
+//	document.getElementById("timeWarping").style.display = "none"
 //	document.getElementById("moneyDisplay").textContent = "$"+Math.floor(gameData.player.money)
 	var jobCompletionPercentage = gameData.currentJob.xp/ gameData.currentJob.getMaxXp()
     document.getElementById("currentJobDisplay").textContent = gameData.currentJob.name	 + " " + gameData.currentJob.level +"." + ((jobCompletionPercentage<0.095)?"0":"") + (jobCompletionPercentage*100).toFixed(0)
@@ -142,7 +142,8 @@ function updateUI() {
 	document.getElementById("expenseDisplay").textContent = "$"+format(getExpenses(),2)		
 	document.getElementById("netDisplay").textContent =     "$"+format(getIncome()-getExpenses(),2)		
 	document.getElementById("energyDisplay").textContent =     getEnergy().toFixed(1)	
-	
+	document.getElementById("pauseButton").textContent = gameData.paused ? "Resume" : "Pause"
+
 	hideEntities()
 	updateTaskRows()
 	updateStatRows()

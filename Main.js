@@ -1,18 +1,3 @@
-//TODO: Fix header collapse on crime table
-//TODO: When you change tabs it remembers the last scroll position of that tab.
-//TODO: A page to show some stats about the game. ie how many rebirths.
-/*TODO: A more complex auto-learn that lets you give detailed instructions on what level you want each skill and in what order.
-					ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
-*/
-//TODO test if this shows up @The-Woodchuck
-//ISSUE Let's see if I can see this
-/*
-TODO @The-Woodchuck
-Make auto-learn use exp/day and remaining to work out what to level next.
-Add a filter to turn on and off skills to learn.
-*/
-
-//Game speed and calculations
 
 function isAlive() {
 	
@@ -35,8 +20,36 @@ function getGameSpeed() {
     return gameSpeed
 }
 
+
+
+function changeTab(direction){
+	var tabs = Array.prototype.slice.call(document.getElementsByClassName("tab"))
+	var tabButtons = Array.prototype.slice.call(document.getElementsByClassName("tabButton"))
+
+	var currentTab = 0
+	for (i in tabs) {
+		if (!tabs[i].style.display.includes("none"))
+	 		currentTab = i*1
+	}
+	var targetTab = currentTab+direction
+	targetTab = Math.max(0,targetTab)
+	if( targetTab > (tabs.length-1)) targetTab = 0
+	while(tabButtons[targetTab].style.display.includes("none")){
+		targetTab = targetTab+direction
+		targetTab = Math.max(0,targetTab) 
+		if( targetTab > (tabs.length-1)) targetTab = 0
+	}
+	setTab(document.getElementById(tabs[targetTab].id+"TabButton"), tabs[targetTab].id)
+} 
+document.onkeydown =  function(e){
+	console.log(e.key)
+	if(e.key==" ") setPause() 
+	if(e.key=="ArrowRight") changeTab(1) 
+	if(e.key=="ArrowLeft") changeTab(-1) 
+}
+
 function setPause() {
-    gameData.paused = !gameData.paused
+	gameData.paused = !gameData.paused
 }
 
 
@@ -373,7 +386,7 @@ function fight(enemy){
 }
 
 function rebirthReset() {
-    setTab(jobTabButton, "jobs")
+    setTab(document.getElementById("jobsTabButton"), "jobs")
 
     gameData.coins = 0
     gameData.days = 365 * 18
@@ -538,7 +551,7 @@ if (savegame !== null) {
 
 addMultipliers()
 
-setTab(document.getElementById("jobTabButton"), "jobs")
+setTab(document.getElementById("jobsTabButton"), "jobs")
 
 setInterval(update, 1000 / updateSpeed)
 //setInterval(update, 10000)

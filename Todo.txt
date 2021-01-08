@@ -1,0 +1,76 @@
+Since my //Todo does not show up on Github this does not need a // and just is a txt file
+
+----------Bugs-------------------
+Make sure currency is rounded down and costs rounded up
+Fix header collapse on crime table
+
+----------UI---------------------
+When you change tabs it remembers the last scroll position of that tab.
+A page to show some stats about the game. ie how many rebirths.
+Add somewhere to see multipliers for skills/Jobs
+If net income is negative, show years till bankruptcy
+
+----------Features---------------
+Add job categories: Academic, Medical and Criminal. 
+    Medical unlocks only for good heroes, criminal for bad and Academic for intelligent
+    Add more jobs + skills with unlocks related to good/evil  
+
+Add offline / paused time that can be spend on speeding up the game
+
+Add FAQ + multiplier breakdown
+    Many people don't understand the max level calculation.
+
+Add age mechanic 
+    - multiplier (<1) to physical after age 35
+    - multiplier (<1) to physical after mental 50
+    - add stuff to delay start
+    
+----------Maintenance------------
+Split code over more useful categories (main.js and UI update is getting a bit long)
+Move all colours to CSS
+    Pick RG or hex format for colours
+    Better colours. Esp for light mode
+
+Change headers to classes with colours set in CSS
+Clean up CSS!
+    remove the w3 crap
+----------Uncategorised----------
+
+Host: https://pages.github.com/
+
+Automation tab
+    Auto pause: on new job /skill unlocks
+    Make auto-learn use exp/day and remaining to work out what to level next.
+    Add a filter to turn on and off skills to learn.
+    A more complex auto-learn that lets you give detailed instructions on what level you want each skill and in what order.
+        ie "Train Productivity to 50" -> "Train Meditation to 50" -> "Train Productivity to 100" -> "Train Strength to 100" etc
+
+
+Add villain fight mechanic
+    On win: Absorb superpower
+    Player can choose: kill (get evil point), imprison (get good point), let go (no points, but can absorb again)
+    Kill/imprison. Spawn new villain of same tier, but 10% stronger. Receive if (villain tier) hero points for first kill of that tier
+    
+    if first win in Tier 2 prestige, add he
+Add superpowers
+
+Add tier 2 prestige 
+    reset tiers to allow more hero points
+
+Add hero points to be spent
+
+
+Add combat simulator on first death
+Add FAQ with unlocks as you unlock more mechanics
+Add achievements
+Add housing, items and Armory
+Add weaponsmiths (hired inventors that upgrade armory items)
+Armory items: hat, shirt, pants, shoes, gloves, weapon
+    Choose bonus per item (e.g. hat boost int)
+    Weaponsmith has chance to increase random item per day.
+    Weaponsmiths are expensive - ideally goes along the "rich" superpower
+Minigames:
+    Sudoku solver. Provides Int exp. At high int, start unlocking Automation
+    Something for strength?
+
+     

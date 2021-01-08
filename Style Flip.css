@@ -1,22 +1,29 @@
 .theme-light {
-  --color-primary: #646464; /* gray*/
-  --color-progress-back: #646464; /* gray*/
-  --color-progress-fill: #fd6f53; /* orange*/
+  --color-primary: #646464; 
+  --color-progress-back: #646464;
+  --color-progress-fill: #fd6f53; 
   --color-progress-fill-current:  #ff9800; 
   --color-background: #fbfbfe;
   --color-secondary: #fbfbfe;
   --color-accent: #fd6f53;
   --font-color: #000000;
   --alternate-background: #E0E0E0;
-  --alternate-color: #000000;   /*white*/
+  --alternate-color: #000000;   
 
   --button-color: #E0E0E0;
   --button-background:  #455A64 ;
+
+  --net-income: rgb(22, 125, 173);
+  --income: rgb(0,128,0);
+  --expense: rgb(255,0,0);
+  --energy: rgb(15, 105, 207);
+  
 }
 .theme-dark {
   --color-primary: #c8c8c8;
-  --color-progress-back: #3a3c3d; /* gray*/
-  --color-progress-fill: #455A64; /* orange*/
+  --color-progress-back: #3a3c3d;
+  
+  --color-progress-fill: #455A64; 
   --color-progress-fill-current:  #c86400; 
   
 
@@ -31,6 +38,12 @@
   
   --font-color: #aaaaaa;
   --alternate-color: #ffffff;
+
+  --net-income:rgb(22,125,173);/* rgb(0,0,255);/* #455A64;/*rgb(22, 125, 173);*/
+  --income: rgb(0,128,0);
+  --expense: rgb(255,0,0);
+  --energy: rgb(15, 105, 207);
+
 }
 
 
@@ -59,6 +72,22 @@ th {
 
 }
 
+.dead{
+  color: var(--expense) !important;
+}
+.netMoney{
+  color: var(--net-income) !important;
+}
+.income{
+  color: var(--income) !important;
+}
+.expense{
+  color: var(--expense) !important;
+}
+.energy{
+  color: var(--energy) !important;
+
+}
 .progressBar{ 
     position: relative;
     cursor: pointer;
@@ -90,6 +119,10 @@ th {
     display: inline-block;
 }
  
+.tooltip {
+  position: relative;
+
+}
  
 .tooltip .tooltipText {
     visibility: hidden;
@@ -115,6 +148,19 @@ th {
 }
 
 
+.tabButton{
+	border:none;
+	display:inline-block;
+	padding:8px 16px;
+	vertical-align:middle;
+	overflow:hidden;
+	text-decoration:none;
+	color:inherit;
+	background-color:inherit;
+	text-align:center;
+	cursor:pointer;
+  white-space:nowrap}
+  
 .w3-btn,.w3-button{
 	border:none;
 	display:inline-block;
@@ -147,6 +193,7 @@ th {
     cursor: pointer;
     background-color: rgb(128, 128, 128);
 }
+
 .borderbutton{
 	height: 40px !important;
 	padding: 10px 20px;
@@ -179,12 +226,14 @@ li{
 		margin: 8px;
 }
 
-a {
+a{
   color: var(--color-accent);
 }
+
 a:hover {
   color: lightblue;
 }
+
 .inline {
     display: inline-block;
 }
