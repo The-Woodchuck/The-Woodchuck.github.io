@@ -31,7 +31,7 @@ const autoLearnElement = document.getElementById("autoLearn")
 const baseGameSpeed = 4
 const updateSpeed = 20
 var debugSpeed = 1
-if(window.location.href == "file:///C:/Users/Hercules/Documents/Python%20Scripts/Supers/v2/index.html"){
+if(window.location.href.includes("file:///C:")){
 	console.log("Debug on")
 	debugSpeed = 1
 	document.getElementById("debug").style.display=""
@@ -140,11 +140,11 @@ const jobCategories = {
 	"Academic": []
 }
 
-const formatAsPercentage = ["Henchman find"]
+const formatAsPercentage = ["Henchman find","Villain find"]
 
 const statCategories = {
 	"Base stats": ["Intelligence", "Endurance", ,"Strength", "Speed","Dexterity"],
-	"Combat stats": ["Henchman find","Hit points","Min damage","Max damage","Attack speed"]
+	"Combat stats": ["Henchman find","Villain find","Hit points","Min damage","Max damage","Attack speed"]
 
 }
 

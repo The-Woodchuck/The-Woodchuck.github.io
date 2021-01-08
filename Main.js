@@ -22,32 +22,6 @@ function getGameSpeed() {
 
 
 
-function changeTab(direction){
-	var tabs = Array.prototype.slice.call(document.getElementsByClassName("tab"))
-	var tabButtons = Array.prototype.slice.call(document.getElementsByClassName("tabButton"))
-
-	var currentTab = 0
-	for (i in tabs) {
-		if (!tabs[i].style.display.includes("none"))
-	 		currentTab = i*1
-	}
-	var targetTab = currentTab+direction
-	targetTab = Math.max(0,targetTab)
-	if( targetTab > (tabs.length-1)) targetTab = 0
-	while(tabButtons[targetTab].style.display.includes("none")){
-		targetTab = targetTab+direction
-		targetTab = Math.max(0,targetTab) 
-		if( targetTab > (tabs.length-1)) targetTab = 0
-	}
-	setTab(document.getElementById(tabs[targetTab].id+"TabButton"), tabs[targetTab].id)
-} 
-document.onkeydown =  function(e){
-	console.log(e.key)
-	if(e.key==" ") setPause() 
-	if(e.key=="ArrowRight") changeTab(1) 
-	if(e.key=="ArrowLeft") changeTab(-1) 
-}
-
 function setPause() {
 	gameData.paused = !gameData.paused
 }
@@ -280,7 +254,10 @@ function calcStats(target){
 									Math.log10(1+target.stats["Speed"].value) * 0.03
 				  )
 	
-	calculatedStat(target, "Attack speed",  Math.max(1, Math.min(50,Math.log10(target.stats["Speed"].value))))
+	calculatedStat(target, "Villain find", Math.log10(target.stats["Intelligence"].value)*
+				  Math.log10(1+target.stats["Speed"].value) * 0.0003
+)
+calculatedStat(target, "Attack speed",  Math.max(1, Math.min(50,Math.log10(target.stats["Speed"].value))))
 	
 //	HenchmanFind = Math.log10(intelligence) * Math.log10(speed) * 0.03 * trainee.TimeSpent.getbyname("Fight Crime").Amount
 	//	trainee.VillainFind  = Math.log10(intelligence) * Math.log10(speed) * 0.003 * trainee.TimeSpent.getbyname("Fight Crime").Amount

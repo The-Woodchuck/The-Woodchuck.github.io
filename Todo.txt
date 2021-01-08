@@ -5,14 +5,14 @@ Make sure currency is rounded down and costs rounded up
 Fix header collapse on crime table
 
 ----------UI---------------------
-When you change tabs it remembers the last scroll position of that tab.
+When you change tabs remember the last scroll position of that tab.
 A page to show some stats about the game. ie how many rebirths.
 Add somewhere to see multipliers for skills/Jobs
 If net income is negative, show years till bankruptcy
 
 ----------Features---------------
 Add job categories: Academic, Medical and Criminal. 
-    Medical unlocks only for good heroes, criminal for bad and Academic for intelligent
+    Medical unlocks only for good heroes, criminal for bad 
     Add more jobs + skills with unlocks related to good/evil  
 
 Add offline / paused time that can be spend on speeding up the game
@@ -37,6 +37,10 @@ Clean up CSS!
 ----------Uncategorised----------
 
 Host: https://pages.github.com/
+    go to folder project
+    
+
+    git clone https://github.com/The-Woodchuck/The-Woodchuck.github.io
 
 Automation tab
     Auto pause: on new job /skill unlocks

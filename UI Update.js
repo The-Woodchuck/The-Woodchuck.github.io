@@ -38,7 +38,7 @@ function updateStatRows() {
 			var henchmanstat = gameData.henchman.stats[key].value
 			row.getElementsByClassName("henchmanlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*henchmanstat,2)+"%":(Number.isInteger(henchmanstat)?(henchmanstat):(format(henchmanstat,2)))
 		}
-		if(key== "Henchman find"){
+		if(["Henchman find","Villain find"].includes(key)){
 			row.getElementsByClassName("villainlevel")[0].textContent = ""
 			row.getElementsByClassName("henchmanlevel")[0].textContent = ""
 		}
@@ -102,6 +102,34 @@ function setTab(element, selectedTab) {
     element.classList.add("activeButton")
 	element.classList.remove("highlightButton")
 
+}
+
+
+function changeTab(direction){
+	var tabs = Array.prototype.slice.call(document.getElementsByClassName("tab"))
+	var tabButtons = Array.prototype.slice.call(document.getElementsByClassName("tabButton"))
+
+	var currentTab = 0
+	for (i in tabs) {
+		if (!tabs[i].style.display.includes("none"))
+	 		currentTab = i*1
+	}
+	var targetTab = currentTab+direction
+	targetTab = Math.max(0,targetTab)
+	if( targetTab > (tabs.length-1)) targetTab = 0
+	while(tabButtons[targetTab].style.display.includes("none")){
+		targetTab = targetTab+direction
+		targetTab = Math.max(0,targetTab) 
+		if( targetTab > (tabs.length-1)) targetTab = 0
+	}
+	setTab(document.getElementById(tabs[targetTab].id+"TabButton"), tabs[targetTab].id)
+} 
+
+document.onkeydown =  function(e){
+	console.log(e.key)
+	if(e.key==" ") setPause() 
+	if(e.key=="ArrowRight") changeTab(1) 
+	if(e.key=="ArrowLeft") changeTab(-1) 
 }
 
 
