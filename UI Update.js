@@ -212,9 +212,9 @@ function updateUI() {
 
 	}
 	if(	gameData.aligment == 0)
-		document.getElementById("alignmentDisplay").classList.add("hidden")
+		document.getElementById("alignmentDiv").classList.add("hidden")
 	else	
-		document.getElementById("alignmentDisplay").classList.remove("hidden")
+		document.getElementById("alignmentDiv").classList.remove("hidden")
 	hideEntities()
 	updateTaskRows()
 	updateStatRows()
