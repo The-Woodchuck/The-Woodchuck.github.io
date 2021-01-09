@@ -196,11 +196,16 @@ function calcStats(target){
 		})
 		target.stats[stat].value *= multi
 	})
+	crimeFindBonus = 	1
+	getArrayofTaskEffects("CrimeFind").forEach(function (item, index){  
+		crimeFindBonus*= item()
+	})
+	//console.log(crimeFindBonus)
 	calculatedStat(target, "Henchman find", Math.log10(target.stats["Intelligence"].value)*
-									Math.log10(1+target.stats["Speed"].value) * 0.03)
+									Math.log10(1+target.stats["Speed"].value) * 0.03 *crimeFindBonus)
 	
 	calculatedStat(target, "Villain find", Math.log10(target.stats["Intelligence"].value)*
-				  Math.log10(1+target.stats["Speed"].value) * 0.0003)
+				  Math.log10(1+target.stats["Speed"].value) * 0.0003 * crimeFindBonus)
 
 	
 	combatMult = gameData.taskData["Combat Experience"].getEffect()
