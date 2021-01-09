@@ -87,6 +87,13 @@
                     </div>
                 </div>
 
+                <div>
+                    <div class="tooltip alignment">
+                        <span >Alignment:</span>
+                        <span style="font-size: large" id="alignmentDisplay"></span>
+                        <span class="tooltipText">Alignment is earned (good or evil) by killing or imprisoning villains!</span>                
+                    </div>
+                </div>
                 <div class="spacer"></div>
 
                 <span id="debug" style="display:none">
@@ -103,6 +110,7 @@
                 <div class="tabButton" id="shopTabButton" onClick="setTab(this, 'shop')">Shop</div>
                 <div class="tabButton" id="crimeTabButton" onClick="setTab(this, 'crime')">Crime</div>
                 <div class="tabButton" id="rebirthTabButton" onClick="setTab(this, 'rebirth')">Amulet</div>
+                <div class="tabButton" id="automationTabButton" onClick="setTab(this, 'automation')">Automation</div>
                 <div class="tabButton" id="settingsTabButton" onClick="setTab(this, 'settings')" style="float: right">Settings</div>
                 <div class="tabButton" id="aboutTabButton" onClick="setTab(this, 'about')" style="float: right">About</div>
             </div>
@@ -232,6 +240,8 @@
                     </table>
                 </div>
 
+                <div class="tab" id="automation">
+                </div>
                 <div class="tab" id="crime">
                     <table >
 					<tr>
@@ -246,7 +256,7 @@
                         </div>
                     </td>
 					<td style="width: 200px">
-					    <button id="fightVillainButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="placeholder()">Fight Villain</button>
+					    <button id="fightVillainButton" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="fightVillain()">Fight Villain</button>
                         <div>
                                 <div class="tooltip">
                                     <span class="tooltipText">TBC tooltip</span>

@@ -201,7 +201,20 @@ function updateUI() {
 	document.getElementById("netDisplay").textContent =     "$"+format(getIncome()-getExpenses(),2)		
 	document.getElementById("energyDisplay").textContent =     getEnergy().toFixed(1)	
 	document.getElementById("pauseButton").textContent = gameData.paused ? "Resume" : "Pause"
+	document.getElementById("alignmentDisplay").textContent = gameData.aligment > 0? gameData.aligment + " Good": gameData.aligment + " Evil" 
+	if(	gameData.aligment > 0){
+		document.getElementById("alignmentDisplay").classList.add("expense")
+		document.getElementById("alignmentDisplay").classList.remove("income")
+	}
+	else{
+		document.getElementById("alignmentDisplay").classList.remove("expense")
+		document.getElementById("alignmentDisplay").classList.add("income")
 
+	}
+	if(	gameData.aligment == 0)
+		document.getElementById("alignmentDisplay").classList.add("hidden")
+	else	
+		document.getElementById("alignmentDisplay").classList.remove("hidden")
 	hideEntities()
 	updateTaskRows()
 	updateStatRows()

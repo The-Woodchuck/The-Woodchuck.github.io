@@ -305,7 +305,8 @@ function rebirthReset() {
         var requirement = gameData.requirements[key]
         if (requirement.completed && permanentUnlocks.includes(key)) continue
         requirement.completed = false
-    }
+	}
+	document.getElementById("autoFightHenchman").checked = false
 }
 
 

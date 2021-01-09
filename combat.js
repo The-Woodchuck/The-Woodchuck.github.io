@@ -4,9 +4,27 @@ function autoFightHenchman(){
 }
 
 function fightVillain(){
-    if(document.getElementById("killVillain").checked) gameData.villainWin = "kill"
-	if(document.getElementById("looseVillain").checked) gameData.villainWin = "loose"
-	if(document.getElementById("imprisonVillain").checked) gameData.villainWin = "imprison"
+	if(gameData.currentVillain>=0)
+		if(fight(gameData.villains[gameData.currentVillain])){
+
+			if(document.getElementById("killVillain").checked) gameData.villainWin = "kill"
+			if(document.getElementById("looseVillain").checked) gameData.villainWin = "loose"
+			if(document.getElementById("imprisonVillain").checked) gameData.villainWin = "imprison"
+			
+			if(gameData.villainWin == "loose")
+			{}
+			else
+			{
+				gameData.villains[gameData.currentVillain] = newVillain(gameData.villains[gameData.currentVillain].tier)
+			}
+			if(gameData.villainWin == "kill")
+				gameData.aligment -= 1
+				if(gameData.villainWin == "imprison")
+				gameData.aligment += 1
+			gameData.currentVillain = -1	
+		}
+		else
+			gameData.alive=false
 
 }
 
@@ -51,7 +69,8 @@ function newVillain(tier){
     var villain = {
         taskData: {},
         XPperDay: tier*100,
-        stats:{}
+		stats:{},
+		tier:tier
     }
     //createData(villain.taskData, jobBaseData)
     createData(villain.taskData, skillBaseData)

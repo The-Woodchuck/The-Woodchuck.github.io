@@ -23,7 +23,9 @@ var gameData = {
     currentVillain: -1,
     villains: [],
     villainWin : "",
-    combatXP: 0
+    combatXP: 0,
+    aligment: 0
+
 }
 
 const autoPromoteElement = document.getElementById("autoPromote")
