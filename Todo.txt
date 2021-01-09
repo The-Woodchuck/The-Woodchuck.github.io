@@ -9,7 +9,7 @@ When you change tabs remember the last scroll position of that tab.
 A page to show some stats about the game. ie how many rebirths.
 Add somewhere to see multipliers for skills/Jobs
 If net income is negative, show years till bankruptcy
-Add a $ for income per day
+Done Add a $ for income per day
 
 ----------Features---------------
 Add job categories: Academic, Medical and Criminal. 
