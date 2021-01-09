@@ -218,7 +218,7 @@ function updateUI() {
 	hideEntities()
 	updateTaskRows()
 	updateStatRows()
-//random changes 2
+//todo test
 	updateRequiredRows(gameData.taskData, jobCategories)
 	updateRequiredRows(gameData.taskData, skillCategories)
 //	updateRequiredRows(gameData.taskData, statCategories)
