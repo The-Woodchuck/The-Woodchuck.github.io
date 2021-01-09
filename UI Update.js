@@ -105,7 +105,7 @@ function updateTaskRows() {
         valueElement.getElementsByClassName("income")[0].style.display = task instanceof Job
         valueElement.getElementsByClassName("effect")[0].style.display = task instanceof Skill
         if (task instanceof Job) {
-			valueElement.getElementsByClassName("income")[0].textContent =	format(task.getIncome(), 2)
+			valueElement.getElementsByClassName("income")[0].textContent =	"$"+format(task.getIncome(), 2)
             //formatCoins(task.getIncome(), valueElement.getElementsByClassName("income")[0])
         } else {
             valueElement.getElementsByClassName("effect")[0].textContent = task.getEffectDescription()
@@ -218,7 +218,6 @@ function updateUI() {
 	hideEntities()
 	updateTaskRows()
 	updateStatRows()
-//random changes 2
 	updateRequiredRows(gameData.taskData, jobCategories)
 	updateRequiredRows(gameData.taskData, skillCategories)
 //	updateRequiredRows(gameData.taskData, statCategories)

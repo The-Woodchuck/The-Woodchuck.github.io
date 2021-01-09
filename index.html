@@ -22,7 +22,7 @@
                     <span class="tooltipText">Click to toggle pause, or press space</span>
                 </div>
 
-                <span id="automation" class="inline" style="margin-left: 8px; vertical-align:middle ">
+                <span id="automationSide" class="inline" style="margin-left: 8px; vertical-align:middle ">
                     <span>
                         <div class="inline">Auto-promote</div>
                         <input type="checkbox" class="inline" id="autoPromote">
@@ -242,6 +242,27 @@
                 </div>
 
                 <div class="tab" id="automation">
+                    <div>
+                    More automation in side bar and crime tab!!
+                    </div>
+                    <div class="smallspacer"></div>
+                    <table>
+                    <tr>
+                        <td>
+                            <div>Auto learn behaviour</div>
+                            <input type="radio" id="autoLearnLowestLevel" name="autoLearnTarget" value="level">
+                            <label for="autoLearnLowestLevel">Prioritise by lowest level</label><br>
+                            <input type="radio" id="autoLearnLevelsPerDay" name="autoLearnTarget" value="levels per day">
+                            <label for="autoLearnLevelsPerDay">Prioritise by most levels per day</label><br>
+                        </td>
+                        <td>
+                            <span class="inline">
+                                <input type="checkbox" class="inline" id="autoPauseOnRebirth">
+                                <div class="inline">Auto pause on rebirth</div>
+                            </span>	 
+                        </td>
+                    </tr>
+                    </table>
                 </div>
                 <div class="tab" id="crime">
                     <table >

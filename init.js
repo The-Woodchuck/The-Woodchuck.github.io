@@ -24,7 +24,8 @@ var gameData = {
     villains: [],
     villainWin : "",
     combatXP: 0,
-    aligment: 0
+    aligment: 0,
+    autoLearnTarget: "level"
 
 }
 

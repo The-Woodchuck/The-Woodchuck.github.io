@@ -165,14 +165,16 @@ function getArrayofTasks(type, target=gameData){
 	return result
 }
 
-function getKeyOfLowestValueFromDict(dict) {
+function getKeyOfBestValueFromDict(dict, lowest = true) {
     var values = []
     for (key in dict) {
         var value = dict[key]
         values.push(value)
     }
-
-    values.sort(function(a, b){return a - b})
+	if(lowest)
+		values.sort(function(a, b){return a - b})
+	else
+		values.sort(function(a, b){return  b - a})
 
     for (key in dict) {
         var value = dict[key]
@@ -182,7 +184,23 @@ function getKeyOfLowestValueFromDict(dict) {
     }
 }
 
-function setSkillWithLowestMaxXp() {
+function getSkillWithHighestLevelsPerDay() {
+	var xpDict = {}
+    for (skillName in gameData.taskData) {
+		if(!(skillCategories["Combat"].includes(skillName))){
+			var skill = gameData.taskData[skillName]
+			var requirement = gameData.requirements[skillName]
+			if (skill instanceof Skill && requirement.isCompleted()) {
+				xpDict[skill.name] = skill.getMaxXp() / skill.getXpGain()
+			}
+		}	
+    }
+
+	var skillName = getKeyOfBestValueFromDict(xpDict, false)
+	return gameData.taskData[skillName]
+}
+
+function getSkillWithLowestMaxXp() {
     var xpDict = {}
 
     for (skillName in gameData.taskData) {
@@ -195,14 +213,25 @@ function setSkillWithLowestMaxXp() {
 		}	
     }
 
-    var skillName = getKeyOfLowestValueFromDict(xpDict)
-    skillWithLowestMaxXp = gameData.taskData[skillName]
+    var skillName = getKeyOfBestValueFromDict(xpDict)
+	var skillWithLowestMaxXp = gameData.taskData[skillName]
+	return skillWithLowestMaxXp
 }
 
 
 function autoLearn() {
-    if (!autoLearnElement.checked || !skillWithLowestMaxXp) return
-    gameData.currentSkill = skillWithLowestMaxXp
+	//autoLearnLowestLevel
+	if(document.getElementById("autoLearnLowestLevel").checked){
+		var targetSkill = getSkillWithLowestMaxXp()
+		gameData.autoLearnTarget="level"
+	}
+	else{
+		var targetSkill = getSkillWithHighestLevelsPerDay()
+		gameData.autoLearnTarget="levelsPerDay"
+	}
+
+    if (!autoLearnElement.checked || !targetSkill) return
+    gameData.currentSkill = targetSkill
 }
 
 function calculatedStat(target, name, value){
@@ -318,6 +347,7 @@ function Random(min, max) {
 function rebirthReset() {
     setTab(document.getElementById("jobsTabButton"), "jobs")
 
+	
     gameData.coins = 0
     gameData.days = 365 * 18
     gameData.alive = true
@@ -345,6 +375,10 @@ function rebirthReset() {
         requirement.completed = false
 	}
 	document.getElementById("autoFightHenchman").checked = false
+
+	if(document.getElementById("autoPauseOnRebirth").checked)
+		gameData.paused = true
+
 }
 
 
@@ -364,7 +398,7 @@ function update(){
 	doCurrentTask(gameData.currentJob)
 	doCurrentTask(gameData.currentSkill)
 	calcStats(gameData)
-	setSkillWithLowestMaxXp()
+	//setSkillWithLowestMaxXp()
 	autoFightHenchman()
 	autoLearn()
 	autoPromote()
@@ -413,6 +447,7 @@ createAllRows(skillCategories, "skillTable")
 createAllRows(statCategories, "statTable")
 
 loadGame()
+gameData.autoLearnTarget== "level"?document.getElementById("autoLearnLowestLevel").checked=true:document.getElementById("autoLearnLevelsPerDay").checked=true
 
 
 function setRequirements(){
