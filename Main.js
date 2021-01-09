@@ -1,3 +1,30 @@
+function getCategoryFromEntityName(categoryType, entityName) {
+    for (categoryName in categoryType) {
+        var category = categoryType[categoryName]
+        if (category.includes(entityName)) {
+            return category
+        }
+    }
+}
+
+function getNextEntity(data, categoryType, entityName) {
+    var category = getCategoryFromEntityName(categoryType, entityName)
+    var nextIndex = category.indexOf(entityName) + 1
+    if (nextIndex > category.length - 1) return null
+    var nextEntityName = category[nextIndex]
+    var nextEntity = data[nextEntityName]
+    return nextEntity
+}
+
+function autoPromote() {
+	const autoPromoteElement = document.getElementById("autoPromote")
+    if (!autoPromoteElement.checked) return
+    var nextEntity = getNextEntity(gameData.taskData, jobCategories, gameData.currentJob.name)
+    if (nextEntity == null) return
+    var requirement = gameData.requirements[nextEntity.name]
+    if (requirement.isCompleted()) gameData.currentJob = nextEntity
+}
+
 
 
 function getGameSpeed() {
@@ -196,10 +223,16 @@ function calcStats(target){
 		})
 		target.stats[stat].value *= multi
 	})
-	crimeFindBonus = 	1
+	var crimeFindBonus = 	1
 	getArrayofTaskEffects("CrimeFind").forEach(function (item, index){  
 		crimeFindBonus*= item()
 	})
+
+	var weaponBonus=1;
+	getArrayofTaskEffects("Weapons").forEach(function (item, index){  
+		weaponBonus*= item()
+	})
+
 	//console.log(crimeFindBonus)
 	calculatedStat(target, "Henchman find", Math.log10(target.stats["Intelligence"].value)*
 									Math.log10(1+target.stats["Speed"].value) * 0.03 *crimeFindBonus)
@@ -210,8 +243,8 @@ function calcStats(target){
 	
 	combatMult = gameData.taskData["Combat Experience"].getEffect()
 	calculatedStat(target, "Hit points", target.stats["Endurance"].value*10 * combatMult)
-	calculatedStat(target, "Min damage", 1 * combatMult)
-	calculatedStat(target, "Max damage", target.stats["Strength"].value * combatMult)
+	calculatedStat(target, "Min damage", Math.sqrt(target.stats["Dexterity"].value) * combatMult*weaponBonus)
+	calculatedStat(target, "Max damage", target.stats["Strength"].value * combatMult*weaponBonus)
 	calculatedStat(target, "Attack speed",  Math.max(1, Math.min(50,Math.log10(target.stats["Speed"].value * combatMult))))
 
 }
@@ -334,6 +367,7 @@ function update(){
 	setSkillWithLowestMaxXp()
 	autoFightHenchman()
 	autoLearn()
+	autoPromote()
 	
 	if(gameData.paused == false){
 		if(gameData.villains.length == 0){		
@@ -422,6 +456,7 @@ function setRequirements(){
 		"Push-ups": new TaskRequirement([getTaskElement("Push-ups")], [{task: "Fitness plan", requirement: 10}]),
 		"Pull-ups": new TaskRequirement([getTaskElement("Pull-ups")], [{task: "Push-ups", requirement: 50}]),
 		
+		"Juggling": new TaskRequirement([getTaskElement("Juggling")], [{task: "Fitness plan", requirement: 10}]),
 		"Combat Experience": new TaskRequirement([getTaskElement("Combat Experience")], []),
 		
 	}

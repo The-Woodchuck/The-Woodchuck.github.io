@@ -61,38 +61,38 @@ const jobBaseData = {
 
 	"Trust fund kid": {name: "Trust fund kid", maxXp: 500, income: 0,  effect:0.01, description: "Income"},
 	
-    "Journalist": {name: "Journalist", maxXp: 100, income: 5, Bonus: "The pay is crap, but your freedom of movement allows you to find crime easily. 1% bonus per level to finding crime", effect:0.01, description: "CrimeFind"},
+    "Journalist": {name: "Journalist", maxXp: 100, income: 5, effect:0.01, description: "CrimeFind"},
 	
-    "Editor": {name: "Editor", maxXp: 200, income: 9, Bonus: "Better pay, maybe you can move into a tent now? Now you have a team of journalists that can find crime! 1% bonus per level to finding crime.", effect:0.01, description: "CrimeFind"},
+    "Editor": {name: "Editor", maxXp: 200, income: 9, effect:0.01, description: "CrimeFind"},
 	
-    "Newspaper magnate": {name: "Newspaper magnate", maxXp: 800, income: 20, Bonus: "The pay is surprisingly low for a magnate. But then again, with the internet newspapers are not as profitable as it used to be. Your connections does make finding villains easier - 1%/level", effect:0.01, description: "VillainFind"},
+    "Newspaper magnate": {name: "Newspaper magnate", maxXp: 800, income: 20, effect:0.01, description: "VillainFind"},
 
-	"Hacker": {name: "Hacker", maxXp: 2000, income: 0, Bonus: "Nobody will pay you to hack for good, and you are good right? Knowing criminals' status updates gives you another 1% bonus to finding crime", effect:0.01, description: "CrimeFind"},
+	"Hacker": {name: "Hacker", maxXp: 2000, income: 50, effect:0.01, description: "CrimeFind"},
 	
-	"Internet controller": {name: "Internet controller", maxXp: 50000, income: 1000, Bonus: "Level up your hacking skills and control the entire internet. Now you get paid to provide DNS addresses to everyone, but you also know everything about everyone. Provides special bonus to crime find of 1% multiplied by the sum of media levels minus the sum of other jobs levels ", effect:0.01, description: ""},
+	"Internet controller": {name: "Internet controller", maxXp: 50000, income: 1000,  effect:0.01, description: ""},
     
 
-    "Trainee": {name: "Trainee", maxXp: 100, income: 10, Bonus: "Pay is bad, but at least your job requires you to go to crime. Ha! Are you naive? Police are so badly bribed you do not get anywhere near crime! At least you get weapons training - 1% bonus per level", effect:0.01, description: "Weapons"},
+    "Trainee": {name: "Trainee", maxXp: 100, income: 10, effect:0.01, description: "Weapons"},
 
-    "Officer": {name: "Officer", maxXp: 300, income: 10, Bonus: "Pay is bad, but at least your job requires you to go to crime. Ha! Are you naive? Police are so badly bribed you do not get anywhere near crime! At least you get weapons training - 1% bonus per level", effect:0.01, description: "Weapons"},
+    "Officer": {name: "Officer", maxXp: 300, income: 10, effect:0.01, description: "Weapons"},
 
-    "Detective": {name: "Detective", maxXp: 500, income: 20, Bonus: "Detectives at least get paid to pretend to investigate crime! Prosecution rate is none-existent, but at least you get a 1% bonus per level to finding crime", effect:0.01, description: "CrimeFind"},
+    "Detective": {name: "Detective", maxXp: 500, income: 20, effect:0.01, description: "Weapons"},
 	
-    "SWAT": {name: "SWAT", maxXp: 1000, income: 40, Bonus: "Guns, guns, guns! 1% bonus per level to weapons", effect:0.01, description: "Weapons"},
+    "SWAT": {name: "SWAT", maxXp: 1000, income: 40, effect:0.01, description: "Weapons"},
 	
-    "Captain": {name: "Captain", maxXp: 2000, income: 100, Bonus: "A police captain, making a difference in a corrupt police force? Ha! You just get paid better", effect:0.0, description: "Weapons"},
+    "Captain": {name: "Captain", maxXp: 2000, income: 100, effect:0.0, description: "Weapons"},
 	
-	"Instructor": {name: "Instructor", maxXp: 5000, income: 200, Bonus: "Teaching the new police how to handle weapons, provides another 1% bonus per level to weapons", effect:0.01, description: "Weapons"},
+	"Instructor": {name: "Instructor", maxXp: 5000, income: 200,   effect:0.01, description: "Weapons"},
 	
-	"Commissioner": {name: "Commissioner", maxXp: 500000, income: 1000, Bonus: "Provides a special bonus to weapons of 1% multiplied by the sum of police levels minus the sum of other jobs levels", effect:0.01, description: ""},
+	"Commissioner": {name: "Commissioner", maxXp: 500000, income: 1000,  effect:0.01, description: ""},
 
-	"Soccer coach": {name: "Soccer coach", maxXp: 100, income: 0, Bonus: "Not your typical superhero job, but it provides a 1% bonus per level to endurance. Coaching a kids soccer team, you have to compete with dads who are willing to do this for free so you do not get paid", effect:0.01, description: "Endurance"},
+	"Soccer coach": {name: "Soccer coach", maxXp: 100, income: 10, effect:0.01, description: "Endurance"},
 
-	"Personal trainer": {name: "Personal trainer", maxXp: 200, income: 15, Bonus: "Helping the gym dudes with their roids - sorry, I mean form - gives you a 1% bonus per level to strength!", effect:0.01, description: "Strength"},
+	"Personal trainer": {name: "Personal trainer", maxXp: 200, income: 15,  effect:0.01, description: "Strength"},
 	
-	"Martial arts instructor": {name: "Martial arts instructor", maxXp: 5000, income: 100, Bonus: "1% per level to combat XP - beating people up for fun really pays off!", effect:0.01, description: "CombatXP"},
+	"Martial arts instructor": {name: "Martial arts instructor", maxXp: 5000, income: 100,   effect:0.01, description: "CombatXP"},
 	
-	"Crossfit champion" : {name: "Crossfit champion", maxXp: 50000, income: 1000, Bonus: "Provides a special bonus to physical stats of 1% multiplied by the sum of fitness levels minus the sum of other jobs levels", effect:0.01, description: ""}
+	"Crossfit champion" : {name: "Crossfit champion", maxXp: 50000, income: 1000, effect:0.01, description: ""}
 	
 }
 
@@ -114,6 +114,8 @@ const skillBaseData = {
 
 	"Push-ups": {name: "Push-ups", maxXp: 100, effect: 1, description: "Strength"},
     "Pull-ups": {name: "Pull-ups", maxXp: 100, effect: 1, description: "Strength"},
+
+    "Juggling": {name: "Juggling", maxXp: 100, effect: 1, description: "Dexterity"},
     
     "Combat Experience": {name: "Combat Experience", maxXp: 100, effect: 0.01, description: "Combat"},
 	
@@ -121,7 +123,7 @@ const skillBaseData = {
 const skillCategories = {
 	"Mental": ["Concentration", "Reading", "Writing", "Meditation", "Reading Sherlock Holmes"],
 	
-	"Physical": ["Fitness plan", "Jogging","Running", "Speed punches", "Sprinting", "Push-ups", "Pull-ups"],
+	"Physical": ["Fitness plan", "Jogging","Running", "Speed punches", "Sprinting", "Push-ups", "Pull-ups","Juggling"],
 	"Combat": ["Combat Experience"],
 }
 
@@ -183,7 +185,24 @@ const tooltips = {
 	"Trust fund kid": "Socialising with rich kids provides connections that gives a 1% bonus per level to income",
 	
 	"Journalist": "The pay is crap, but better than being unemployed. Your freedom of movement allows you to find crime easily. 1% bonus per level to finding crime",
-	
+    "Editor": "Better pay, maybe you can move into a tent now? Now you have a team of journalists that can find crime! 1% bonus per level to finding crime.",
+    "Newspaper magnate": "The pay is surprisingly low for a magnate. But then again, with the internet newspapers are not as profitable as it used to be. Your connections does make finding villains easier - 1%/level",
+    "Hacker": "Knowing criminals' status updates gives you another 1% bonus to finding crime",
+    "Internet Controller": "Level up your hacking skills and control the entire internet. Now you get paid to provide DNS addresses to everyone, but you also know everything about everyone. Provides special bonus to crime find of 1% multiplied by the sum of media levels minus the sum of other jobs levels",
+
+    "Trainee": "Pay is bad, but at least your job requires you to go to crime. Ha! Are you naive? Police are so badly bribed you do not get anywhere near crime! At least you get weapons training - 1% bonus damage per level",
+    "Officer": "Practical weapons training on the streets - 1% damage bonus per level",
+    "Detective": "Detectives can at least pretend to investigate crime, so you think it will give crome find? Not in this corrupt city - you get a better gun though 1% bonus per level to damage",
+    "SWAT": "Guns, guns, guns! 1% bonus per level to weapons",
+    "Captain": "A police captain, making a difference in a corrupt police force? Ha! You just get paid better",
+    "Instructor": "Teaching the new police how to handle weapons, provides another 1% bonus per level to weapons",
+    "Commissioner": "Provides a special bonus to weapons of 1% multiplied by the sum of police levels minus the sum of other jobs levels",
+
+    "Soccer coach": "Not your typical superhero job, but it provides a 1% bonus per level to endurance.",
+    "Personal trainer": "Helping the gym dudes with their roids - sorry, I mean form - gives you a 1% bonus per level to strength!",
+    "Martial arts instructor": "1% per level to combat XP - beating people up for fun really pays off!",
+    "Crossfit champion": "Provides a special bonus to physical stats of 1% multiplied by the sum of fitness levels minus the sum of other jobs levels",
+
     "Homeless": "Sleep on the uncomfortable, filthy streets while almost freezing to death every night. It cannot get any worse than this.",
     "Tent": "A thin sheet of tattered cloth held up by a couple of feeble, wooden sticks. Horrible living conditions but at least you have a roof over your head.",
     "Wooden hut": "Shabby logs and dirty hay glued together with horse manure. Much more sturdy than a tent, however, the stench isn't very pleasant.",
