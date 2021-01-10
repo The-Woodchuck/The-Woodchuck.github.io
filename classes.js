@@ -4,6 +4,10 @@ class SuperPower{
         this.level = level
         this.target = target
     }
+    getEffect(){
+        return 1 + this.level/100
+
+    }
 }
 
 class Task {

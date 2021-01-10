@@ -78,10 +78,22 @@ function updateStatRows() {
 		Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
 			 item.classList.add("hidden")
 		});
-	
-
 	}
-	gameData.currentVillain>=0	? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
+
+	if(!document.getElementById("autoFightVillain").checked){
+		gameData.currentVillain >=0 ? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
+		Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
+			gameData.currentVillain >=0 ? item.classList.remove("hidden") : item.classList.add("hidden")
+		});
+	}
+	else{
+		document.getElementById("fightVillainButton").classList.add("hidden")
+		Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
+			item.classList.add("hidden")
+		});
+	}
+
+//	gameData.currentVillain>=0	? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
 
 }
 

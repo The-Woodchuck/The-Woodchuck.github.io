@@ -24,6 +24,11 @@ function debugResetCurrentVillain(){
 	
 }
 
+function autoFightVillain(){
+	if(document.getElementById("autoFightVillain").checked)
+		fightVillain()
+}
+
 function autoFightHenchman(){ 
 	if(document.getElementById("autoFightHenchman").checked)
 		fightHenchman()
@@ -37,20 +42,31 @@ function fightVillain(){
 			if(document.getElementById("looseVillain").checked) gameData.villainWin = "loose"
 			if(document.getElementById("imprisonVillain").checked) gameData.villainWin = "imprison"
 			
-			if(gameData.villainWin == "loose")
-			{}
-			else
-			{
-				gameData.villains[gameData.currentVillain] = newVillain(gameData.villains[gameData.currentVillain].tier)
+			gameData.statistics.villainsThisRebirth+=1
+			for( let sp in gameData.villains[gameData.currentVillain].superpowers) {
+				console.log(sp, sp in gameData.superpowers)
+				if(sp in gameData.superpowers)
+					gameData.superpowers[sp].level +=1
+				else
+					gameData.superpowers[sp] = AbsorbPower(gameData.villains[gameData.currentVillain].superpowers[sp])
 			}
-			if(gameData.villainWin == "kill")
-				gameData.aligment -= 1
-				if(gameData.villainWin == "imprison")
-				gameData.aligment += 1
-			gameData.currentVillain = -1	
-		}
-		else
-			gameData.alive=false
+			if(gameData.villainWin == "loose")
+				{
+					//easier to write one equal than two. But then I came to write this stupid comment!
+				}
+				else
+				{
+					//kill or imprison - spawn new villain
+					gameData.villains[gameData.currentVillain] = newVillain(gameData.villains[gameData.currentVillain].tier)
+				}
+				if(gameData.villainWin == "kill")
+					gameData.aligment -= 1
+					if(gameData.villainWin == "imprison")
+					gameData.aligment += 1
+				gameData.currentVillain = -1	
+			}
+			else
+				gameData.alive=false
 
 }
 
@@ -97,7 +113,8 @@ function newVillain(tier){
         XPperDay: tier*100,
 		stats:{},
 		tier:tier
-    }
+	}
+	villain.superpowers = GetSuperPowers(tier,100**tier)
     //createData(villain.taskData, jobBaseData)
     createData(villain.taskData, skillBaseData)
     XPperSkill = villain.XPperDay*(gameData.days - 18*365-1) / Object.keys(villain.taskData).length

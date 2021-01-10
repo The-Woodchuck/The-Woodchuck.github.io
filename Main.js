@@ -140,6 +140,18 @@ function getArrayofTaskEffects(type){
 
 	return result
 }
+//getArrayofPowers("Strength",gameData.villains[0])[0].getEfffect()
+
+function getArrayofPowers(type, target=gameData){
+	var result = []
+	for( let sp in target.superpowers) {
+	//	console.log(target.superpowers[sp].target)
+		if(target.superpowers[sp].target ==type){
+			result.push(target.superpowers[sp])
+		}
+	}
+	return result
+}
 function getArrayofTasks(type, target=gameData){
 	var result = []
 	for( let task in target.taskData) {
@@ -152,16 +164,9 @@ function getArrayofTasks(type, target=gameData){
 				 result.push(target.taskData[task])
 			}	
 	}
-/*	for( let job in jobBaseData) 
-		if(jobBaseData[job].description ==type){
-			 result.push(target.taskData[job])
-		}
-
-	for( let skill in skillBaseData) 
-		if(skillBaseData[skill].description ==type){
-			 result.push(target.taskData[skill])
-		}
-*/
+	for( let sp in target.superpowers) {
+	
+	}
 	return result
 }
 
@@ -236,9 +241,8 @@ function autoLearn() {
 
 function calculatedStat(target, name, value){
 	target.stats[name]= {"name":name, "value": value}
-	
-	
 }
+
 function calcStats(target){
 	statCategories["Base stats"].forEach(function(stat){
 		target.stats[stat] = {"name":stat, "value":1}
@@ -250,7 +254,13 @@ function calcStats(target){
 				target.stats[stat].value += task.getEffect()
 			}
 		})
-		target.stats[stat].value *= multi
+		var PowerBonus = 1
+		getArrayofPowers(stat, target).forEach(function (item, index){  
+			PowerBonus*= item.getEffect()
+		})
+		target.stats[stat].value *= multi* PowerBonus
+		
+//		target.stats[stat+" power"]=PowerBonus
 	})
 	var crimeFindBonus = 	1
 	getArrayofTaskEffects("CrimeFind").forEach(function (item, index){  
@@ -375,6 +385,7 @@ function rebirthReset() {
         requirement.completed = false
 	}
 	document.getElementById("autoFightHenchman").checked = false
+	document.getElementById("autoFightVillain").checked = false
 
 	if(document.getElementById("autoPauseOnRebirth").checked)
 		gameData.paused = true
@@ -400,6 +411,7 @@ function update(){
 	calcStats(gameData)
 	//setSkillWithLowestMaxXp()
 	autoFightHenchman()
+	autoFightVillain()
 	autoLearn()
 	autoPromote()
 	
@@ -412,7 +424,7 @@ function update(){
 		TrainVillainSkills(gameData.villains[0])
 		calcStats(gameData.villains[0])
 		if(	gameData.henchmanCount == 0){
-			var hf = gameData.stats["Henchman find"].value
+			var hf = applySpeed(gameData.stats["Henchman find"].value)
 			while(Math.random() < hf)
 			{
 				gameData.henchmanCount +=1
@@ -421,9 +433,12 @@ function update(){
 			if(gameData.henchmanCount>0)
 				gameData.henchman = newHenchman()
 		}
-		if(	gameData.currentVillain < 0)
-			if(Math.random() < gameData.stats["Villain find"].value)
+		if(	gameData.currentVillain < 0){
+			//console.log(1/gameData.stats["Villain find"].value)
+			if(Math.random() < applySpeed(gameData.stats["Villain find"].value)){
 				gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
+			}
+		}
 	}
 	updateUI()
 }

@@ -25,8 +25,11 @@ var gameData = {
     villainWin : "",
     combatXP: 0,
     aligment: 0,
-    autoLearnTarget: "level"
+    autoLearnTarget: "level",
+    villainTier: 1,
+    superpowers:{},
 
+    statistics:{villainsThisRebirth:0}
 }
 
 const autoPromoteElement = document.getElementById("autoPromote")
@@ -149,8 +152,7 @@ const jobCategories = {
     "Unemployed": ["Beggar","Beach bum", "Trust fund kid"],
     "Media": ["Journalist", "Editor", "Newspaper magnate", "Hacker", "Internet controller"],
     "Police" : ["Trainee", "Officer", "Detective", "SWAT", "Captain", "Instructor", "Commissioner"],
-    "Fitness" : ["Soccer coach", "Personal trainer", "Martial arts instructor", "Crossfit champion"],
-	"Academic": []
+    "Fitness" : ["Soccer coach", "Personal trainer", "Martial arts instructor", "Crossfit champion"]
 }
 
 const formatAsPercentage = ["Henchman find","Villain find"]
