@@ -333,9 +333,10 @@ function createAllRows(categoryType, tableId) {
     
 
     var table = document.getElementById(tableId)
-
+	var headerIndex = 0
     for (categoryName in categoryType) {
-        var headerRow = createHeaderRow(templates, categoryType, categoryName)
+		headerIndex += 1
+        var headerRow = createHeaderRow(templates, categoryType, categoryName,headerIndex)
         table.appendChild(headerRow)
 		/*
 		if(categoryType != statCategories){
@@ -372,7 +373,7 @@ function headerClick(name){
 	
 }
 
-function createHeaderRow(templates, categoryType, categoryName) {
+function createHeaderRow(templates, categoryType, categoryName, headerIndex) {
     var headerRow = templates.headerRow.content.firstElementChild.cloneNode(true)
     headerRow.getElementsByClassName("category")[0].textContent = "-"+categoryName
 	
@@ -382,10 +383,11 @@ function createHeaderRow(templates, categoryType, categoryName) {
         headerRow.getElementsByClassName("valueType")[0].textContent = categoryType == jobCategories ? "Income/day" : "Effect"
     }
 
-    headerRow.style.backgroundColor = headerRowColors[categoryName]
+    //headerRow.style.backgroundColor = headerRowColors[categoryName]
     //headerRow.style.color = "#ffffff"
     headerRow.classList.add(removeSpaces(categoryName))
     headerRow.classList.add("headerRow")
+    headerRow.classList.add("header"+headerIndex)
     
     return headerRow
 }

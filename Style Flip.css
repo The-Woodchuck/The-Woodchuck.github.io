@@ -17,6 +17,12 @@
   --income: rgb(0,128,0);
   --expense: rgb(255,0,0);
   --energy: rgb(15, 105, 207);
+
+  --header1BG: #55a630;
+  --header2BG: #e63946;
+  --header3BG: #C71585;
+  --header4BG: #4a4e69;
+  --header5BG: #875F9A;
   
 }
 .theme-dark {
@@ -44,6 +50,11 @@
   --expense: rgb(255,0,0);
   --energy: rgb(15, 105, 207);
 
+  --header1BG: #55a630;
+  --header2BG: #e63946;
+  --header3BG: #C71585;
+  --header4BG: #4a4e69;
+  --header5BG: #875F9A;
 }
 
 
@@ -70,6 +81,22 @@ th {
   padding-bottom: 12px;
   text-align: left;
 
+}
+
+.header1{
+  background: var(--header1BG);
+}
+.header2{
+  background: var(--header2BG);
+}
+.header3{
+  background: var(--header3BG);
+}
+.header4{
+  background: var(--header4BG);
+}
+.header5{
+  background: var(--header5BG);
 }
 
 .dead{

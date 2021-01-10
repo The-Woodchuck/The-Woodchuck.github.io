@@ -191,7 +191,7 @@ function getSkillWithHighestLevelsPerDay() {
 			var skill = gameData.taskData[skillName]
 			var requirement = gameData.requirements[skillName]
 			if (skill instanceof Skill && requirement.isCompleted()) {
-				xpDict[skill.name] = skill.getMaxXp() / skill.getXpGain()
+				xpDict[skill.name] =  skill.getXpGain()/skill.getMaxXp() 
 			}
 		}	
     }
