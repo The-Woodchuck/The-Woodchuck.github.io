@@ -1,3 +1,11 @@
+class SuperPower{
+    constructor(name, target, level=0){
+        this.name = name
+        this.level = level
+        this.target = target
+    }
+}
+
 class Task {
     constructor(baseData) {
         this.baseData = baseData

@@ -40,7 +40,11 @@ if(window.location.href.includes("file:///C:")){
 	debugSpeed = 1
 	document.getElementById("debug").style.display=""
 
-	document.getElementById("debugSlider").oninput = function() {
+    Array.prototype.forEach.call(document.getElementsByClassName("debug"), function(item) {
+             item.classList.remove("hidden") 
+        });
+
+        document.getElementById("debugSlider").oninput = function() {
 		debugSpeed = Math.pow(2, this.value / 12)
 		document.getElementById("debugSpeedDisplay").textContent = debugSpeed.toFixed(1)
 		}
@@ -48,7 +52,10 @@ if(window.location.href.includes("file:///C:")){
 else
 {
 	debugSpeed = 1
-	document.getElementById("debug").style.display = "none"
+//	document.getElementById("debug").style.display = "none"
+    Array.prototype.forEach.call(document.getElementsByClassName("debug"), function(item) {
+        item.classList.add("hidden") 
+   });
 }
 const units = ["", "k", "M", "B", "T", "q", "Q", "Sx", "Sp", "Oc"];
 

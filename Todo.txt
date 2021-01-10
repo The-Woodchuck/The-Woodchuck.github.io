@@ -3,6 +3,7 @@ Since my //Todo does not show up on Github this does not need a // and just is a
 ----------Bugs-------------------
 Make sure currency is rounded down and costs rounded up
 Fix header collapse on crime table
+Apply applyspeed to spawn chance
 
 ----------UI---------------------
 When you change tabs remember the last scroll position of that tab.

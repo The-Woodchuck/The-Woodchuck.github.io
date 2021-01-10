@@ -353,7 +353,7 @@ function rebirthReset() {
     gameData.alive = true
 
 	gameData.henchmanCount = 0
-	gameData.villains=[villain=newVillain(1)]
+	gameData.villains=[newVillain(1)]
 	gameData.currentVillain = -1 //RandomInt(0,gameData.villains.length-1)
 
 

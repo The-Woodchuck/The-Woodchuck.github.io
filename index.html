@@ -97,7 +97,7 @@
                 </div>
                 <div class="spacer"></div>
 
-                <span id="debug" style="display:none">
+                <span class = "debug" id="debug" style="display:none">
 					<div class="smallspacer"></div>
                     <div style="font-size: large"><span style="color: rgb(114, 32, 182)">Debug speed: </span><span id="debugSpeedDisplay">1</span></div>
                     <input id="debugSlider" type="range" min="0" max="100" value="0">
@@ -294,7 +294,21 @@
                         <input type="radio" id="imprisonVillain" name="Villain" value="Imprison">
                         <label for="other">Imprison</label>                         
                     </td>
-					
+					</tr>
+                    <tr class = "debug" display = "none">
+                        <td> 
+                            <button id="BoostPlayer" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="debugBoostPlayer()">Debug: boost max levels</button>
+                        </td>
+                        <td> 
+                            <button id="spawnHenchman" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="debugSpawnHenchman()">Debug: spawn henchman</button>
+                        </td>
+                        <td> 
+                            <button id="spawnVillain" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="debugSpawnVillain()">Debug: spawn villain</button>
+                        </td>
+                        <td> 
+                            <button id="resetVillain" class="button borderbutton inline" style="margin-bottom: 8px; margin-top: 8px" onClick="debugResetCurrentVillain()">Debug: spawn new villain</button>
+                        </td>
+                    </tr>
 
                     </table>
 

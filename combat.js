@@ -1,3 +1,29 @@
+function debugBoostPlayer(){
+	for (skillName in gameData.taskData) 
+		if(gameData.taskData[skillName] instanceof Skill){
+			gameData.taskData[skillName].maxLevel+=50
+		}
+	gameData.rebirthOneCount = Math.max(1, gameData.rebirthOneCount)
+}
+
+function debugSpawnHenchman(){
+	gameData.henchmanCount=1;
+	gameData.henchman = newHenchman()
+	console.log("Debug spawned henchman")
+}
+
+function debugSpawnVillain(){
+	gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
+}
+
+function debugResetCurrentVillain(){
+	if(gameData.currentVillain <0)
+		gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
+	
+	gameData.villains[gameData.currentVillain]=newVillain(1)
+	
+}
+
 function autoFightHenchman(){ 
 	if(document.getElementById("autoFightHenchman").checked)
 		fightHenchman()
