@@ -119,6 +119,11 @@ function getExpenses()
 	return 0
 }
 
+function getBindedPowerEffect(powerName, target= gameData) {
+    var power = target.superpowers[powerName]
+    return power.getEffect.bind(power)
+}
+
 function getBindedTaskEffect(taskName) {
 //	console.log(taskName)
     var task = gameData.taskData[taskName]
@@ -288,7 +293,26 @@ function calcStats(target){
 
 }
 
+function superPowerMultipliers(thisPower){
+	//superpowersthat boosts income
+//			for(sp in gameData.superpowers)
+	console.log(thisPower)
+	for (taskName in gameData.taskData) {
+		var task = gameData.taskData[taskName]
+		if(gameData.superpowers[thisPower].target=="Income")
+			if (task instanceof Job)
+				//task.incomeMultipliers.push(gameData.superpowers[thisPower].getEffect)
+				task.incomeMultipliers.push(getBindedPowerEffect(thisPower))
+				//getBindedPowerEffect
+}
+}
+//superPowerMultipliers("Rich")
+
 function addMultipliers() {
+	if(Object.keys(gameData.superpowers).length>0)
+		for(sp in gameData.superpowers)
+			superPowerMultipliers(sp)
+
     for (taskName in gameData.taskData) {
         var task = gameData.taskData[taskName]
 
@@ -299,18 +323,19 @@ function addMultipliers() {
         task.xpMultipliers.push(getEnergy)
 
         if (task instanceof Job) {
-            task.incomeMultipliers.push(task.getLevelMultiplier.bind(task))
+			//own level income multiplier
+			task.incomeMultipliers.push(task.getLevelMultiplier.bind(task))
+			//other jobs that boosts income
 			for( otherjob in jobBaseData) 
-				if(jobBaseData[otherjob].description =="Income"){
+				if(jobBaseData[otherjob].description =="Income"){	
 					 task.incomeMultipliers.push(getBindedTaskEffect(otherjob))
 				}
+
+			//Media has an XP boost skill
 			if(jobCategories["Media"].includes(task.name))
 				getArrayofTaskEffects("Media XP").forEach(function (item, index){  
 					task.xpMultipliers.push(item)})				
 				
-			//console.log(jobBaseData[otherjob])
-   //         task.xpMultipliers.push(getBindedTaskEffect("Productivity"))
-     //       task.xpMultipliers.push(getBindedItemEffect("Personal squire"))    
         } else if (task instanceof Skill) {
 			getArrayofTaskEffects("Skill XP").forEach(function (item, index){  
 			task.xpMultipliers.push(item)})
@@ -409,18 +434,12 @@ function update(){
 	doCurrentTask(gameData.currentJob)
 	doCurrentTask(gameData.currentSkill)
 	calcStats(gameData)
-	//setSkillWithLowestMaxXp()
 	autoFightHenchman()
 	autoFightVillain()
 	autoLearn()
 	autoPromote()
 	
-	if(gameData.paused == false){
-		if(gameData.villains.length == 0){		
-			gameData.villains=[villain=newVillain(1)]
-			gameData.currentVillain = -1 //RandomInt(0,gameData.villains.length-1)
-		}
-
+	if(!gameData.paused){
 		TrainVillainSkills(gameData.villains[0])
 		calcStats(gameData.villains[0])
 		if(	gameData.henchmanCount == 0){
@@ -434,7 +453,6 @@ function update(){
 				gameData.henchman = newHenchman()
 		}
 		if(	gameData.currentVillain < 0){
-			//console.log(1/gameData.stats["Villain find"].value)
 			if(Math.random() < applySpeed(gameData.stats["Villain find"].value)){
 				gameData.currentVillain = RandomInt(0,gameData.villains.length-1)
 			}
@@ -462,6 +480,13 @@ createAllRows(skillCategories, "skillTable")
 createAllRows(statCategories, "statTable")
 
 loadGame()
+
+if(gameData.villains.length == 0){		
+	gameData.villains=[villain=newVillain(1)]
+	gameData.currentVillain = -1 
+}
+
+
 gameData.autoLearnTarget== "level"?document.getElementById("autoLearnLowestLevel").checked=true:document.getElementById("autoLearnLevelsPerDay").checked=true
 
 
@@ -471,13 +496,13 @@ function setRequirements(){
 		"Beach bum": new TaskRequirement([getTaskElement("Beach bum")], [{money: 10_000},{task: "Beggar", requirement: 10}]),
 		"Trust fund kid": new TaskRequirement([getTaskElement("Trust fund kid")], [{money: 1_000_000},{task: "Beach bum", requirement: 10}]),
 		
-		"Journalist": new TaskRequirement([getTaskElement("Journalist")], []),
+		"Journalist": new TaskRequirement([getTaskElement("Journalist")], [{stat: "Intelligence", requirement: 10}]),
 		"Editor": new TaskRequirement([getTaskElement("Editor")],  [{task: "Journalist", requirement: 10}]),
 		"Newspaper magnate": new TaskRequirement([getTaskElement("Newspaper magnate")],  [{task: "Editor", requirement: 10}]),
 		"Hacker": new TaskRequirement([getTaskElement("Hacker")],  [{task: "Newspaper magnate", requirement: 10}]),
 		"Internet controller": new TaskRequirement([getTaskElement("Internet controller")],  [{task: "Hacker", requirement: 10}]),
 		
-		"Trainee": new TaskRequirement([getTaskElement("Trainee")], []),
+		"Trainee": new TaskRequirement([getTaskElement("Trainee")], [{stat: "Strength", requirement: 10}]),
 		"Officer": new TaskRequirement([getTaskElement("Officer")], [{task: "Trainee", requirement: 10}]),
 		"Detective": new TaskRequirement([getTaskElement("Detective")], [{task: "Officer", requirement: 10}]),	
 		"SWAT": new TaskRequirement([getTaskElement("SWAT")], [{task: "Detective", requirement: 10}]),	
@@ -485,7 +510,7 @@ function setRequirements(){
 		"Instructor": new TaskRequirement([getTaskElement("Instructor")], [{task: "Captain", requirement: 10}]),	
 		"Commissioner": new TaskRequirement([getTaskElement("Commissioner")], [{task: "Instructor", requirement: 10}]),
 		
-		"Soccer coach": new TaskRequirement([getTaskElement("Soccer coach")], []),
+		"Soccer coach": new TaskRequirement([getTaskElement("Soccer coach")], [{stat: "Endurance", requirement: 10}]),
 		"Personal trainer": new TaskRequirement([getTaskElement("Personal trainer")], [{task: "Soccer coach", requirement: 10}]),
 		"Martial arts instructor": new TaskRequirement([getTaskElement("Martial arts instructor")], [{task: "Personal trainer", requirement: 10}]),
 		"Crossfit champion": new TaskRequirement([getTaskElement("Crossfit champion")], [{task: "Martial arts instructor", requirement: 10}]),

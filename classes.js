@@ -5,7 +5,7 @@ class SuperPower{
         this.target = target
     }
     getEffect(){
-        return 1 + this.level/100
+        return 1 + this.level*0.02
 
     }
 }
@@ -148,6 +148,7 @@ class Requirement {
     }
 }
 
+
 class TaskRequirement extends Requirement {
     constructor(elements, requirements) {
         super(elements, requirements)
@@ -160,6 +161,8 @@ class TaskRequirement extends Requirement {
 		//if("stat" in requirement)
 		if("money" in requirement)
 			return gameData.money >= requirement.money
+        if("stat" in requirement)
+			return gameData.stats[requirement.stat] >= requirement.requirement
 		return false
 			
     }

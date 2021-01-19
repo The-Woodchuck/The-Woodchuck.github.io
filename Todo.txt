@@ -8,11 +8,19 @@ Combat XP maxlevel modifier
 Combat XP skill xp modifier
 
 ----------UI---------------------
+Scroll divs rather than page
+    https://www.geeksforgeeks.org/making-a-div-vertically-scrollable-using-css/
+
 When you change tabs remember the last scroll position of that tab.
 A page to show some stats about the game. ie how many rebirths.
 Add somewhere to see multipliers for skills/Jobs
 If net income is negative, show years till bankruptcy
 Done Add a $ for income per day
+It would be nice if, instead of just a skip checkbox on skills, you could input a max level, so you can easierly plan to powerlevel some skills
+If possible,  making the sidebar (that displays the players age and income) be something like  position: fixed; top: #px; left: #px; z-index: # (where # is whatever number looks right).  The top tabs as well. This removes the elements from the normal document flow, (it makes them "stick in place" when the user scrolls). This way when the player scrolls down that important information will always be viewable. (The other elements will have to have some sort of margin-top and margin-left to space out correctly and not overlap the fixed elements).
+Remove currentSkillDisplay+job
+Replace XP left with progress
+
 
 ----------Features---------------
 Add job categories: Academic, Medical and Criminal. 
@@ -41,6 +49,10 @@ Change headers to classes with colours set in CSS
 Clean up CSS!
     remove the w3 crap
 ----------Uncategorised----------
+
+For me, something like four different buttons to switch between Jobs, Skills, Shop, and Amulet would be brilliant. I'd probably prefer 1234 or QWER. Maybe ESC or S to open settings, and to finish P for toggle auto-promote and L for auto-learn. Those are just my personal suggestions.
+Space for pausing or something like that obviously wouldn't hurt, I just wanted to point out that I have never paused the game (I didn't even know it was possible to pause until you said it).
+
 
 Host: https://pages.github.com/
     go to folder project
@@ -88,3 +100,20 @@ Minigames:
     Something for strength?
 
      
+I poked around briefly in main.js and adjusted the behavior of Auto-learn to my liking. Posting it here in case anyone else wants to do the same (just replace the current calculation of xpDict[skill.name] in setSkillWithLowestMaxXp() with this)
+
+daysToNextLevel = skill.getMaxXp() / skill.getXpGain()
+nextLevelRelativeValue = skill.baseData.effect / skill.getEffect()
+if (skill.name == "Bargaining") {
+    // Hack to treat Bargaining like a normal skill
+    nextLevelRelativeValue = .01 / (1 + .01*skill.level)
+}
+xpDict[skill.name] = daysToNextLevel / nextLevelRelativeValue
+
+This takes the time to train the next level and the marginal value of the next level into account
+
+
+would it be easier to just say each level gives a 10% bonus to exp gained?
+like, 11 levels would be (11/10) + 1 = x2.1 versus +110%
+KrunksterToday at 14:49
+1%, not 10%, but yes I think that'd be a better wording

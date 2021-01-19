@@ -26,8 +26,8 @@ function format(number,decimals="auto") {
     // scale the number
     var scaled = number / scale;
 
-    // format number and add suffix
-    return scaled.toFixed(decimals) + suffix;
+	// format number and add suffix
+	return scaled.toFixed(decimals) + suffix;
 }/*
 
 gameData.rebirthOneCount > 0 ? maxLevel.classList.remove("hidden") : maxLevel.classList.add("hidden")
@@ -39,6 +39,13 @@ Array.prototype.forEach.call(document.getElementsByClassName("maxLevel"), functi
 });
 */
 function placeholder(){}
+
+function hideShowElements(HideShow, elements){
+	Array.prototype.forEach.call(elements, function(item) {
+		HideShow ? item.classList.remove("hidden") : item.classList.add("hidden")
+	});
+
+}
 
 function updateStatRows() {
     for (key in gameData.stats) {
@@ -54,8 +61,8 @@ function updateStatRows() {
 		}
 
 		if(["Henchman find","Villain find"].includes(key)){
-			if (gameData.currentVillain>=0)
-				row.getElementsByClassName("villainlevel")[0].textContent = ""
+//			if (gameData.currentVillain>=0)
+			row.getElementsByClassName("villainlevel")[0].textContent = ""
 			row.getElementsByClassName("henchmanlevel")[0].textContent = ""
 		}
 		else
@@ -63,38 +70,34 @@ function updateStatRows() {
 				row.getElementsByClassName("villainlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*villainstat,2)+"%":(Number.isInteger(villainstat)?villainstat:format(villainstat,2)) 
 	}
 	
-	
-	Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
-		gameData.currentVillain>=0 ? item.classList.remove("hidden") : item.classList.add("hidden")
-	});
+	hideShowElements(gameData.currentVillain>=0, document.getElementsByClassName("villainlevel"))
+
 	if(!document.getElementById("autoFightHenchman").checked){
-		gameData.henchmanCount>0 ? document.getElementById("fightHenchmanButton").classList.remove("hidden") : document.getElementById("fightHenchmanButton").classList.add("hidden")
-		Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
-			gameData.henchmanCount>0 ? item.classList.remove("hidden") : item.classList.add("hidden")
-		});
-		}
+		hideShowElements(gameData.henchmanCount>0, [document.getElementById("fightHenchmanButton")])
+		hideShowElements(gameData.henchmanCount>0, document.getElementsByClassName("henchmanlevel"))
+	}
 	else{
 		document.getElementById("fightHenchmanButton").classList.add("hidden")
-		Array.prototype.forEach.call(document.getElementsByClassName("henchmanlevel"), function(item) {
-			 item.classList.add("hidden")
-		});
+		hideShowElements(false, document.getElementsByClassName("henchmanlevel"))
 	}
 
 	if(!document.getElementById("autoFightVillain").checked){
-		gameData.currentVillain >=0 ? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
-		Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
-			gameData.currentVillain >=0 ? item.classList.remove("hidden") : item.classList.add("hidden")
-		});
+		hideShowElements(gameData.currentVillain >=0, [document.getElementsByClassName("fightVillainButton")])
+		hideShowElements(gameData.currentVillain >=0, document.getElementsByClassName("villainlevel"))
+
 	}
 	else{
 		document.getElementById("fightVillainButton").classList.add("hidden")
-		Array.prototype.forEach.call(document.getElementsByClassName("villainlevel"), function(item) {
-			item.classList.add("hidden")
-		});
+		hideShowElements(false, document.getElementsByClassName("villainlevel"))
 	}
+}
 
-//	gameData.currentVillain>=0	? document.getElementById("fightVillainButton").classList.remove("hidden") : document.getElementById("fightVillainButton").classList.add("hidden")
-
+function updateQuickTaskDisplay(taskType) {
+    var currentTask = taskType == "job" ? gameData.currentJob : gameData.currentSkill
+    var quickTaskDisplayElement = document.getElementById("quickTaskDisplay")
+    var progressBar = quickTaskDisplayElement.getElementsByClassName(taskType)[0]
+    progressBar.getElementsByClassName("name")[0].textContent = currentTask.name + " lvl " + currentTask.level
+    progressBar.getElementsByClassName("progressFill")[0].style.width = currentTask.xp / currentTask.getMaxXp() * 100 + "%"
 }
 
 function updateTaskRows() {
@@ -147,6 +150,7 @@ function setTab(element, selectedTab) {
 }
 
 
+
 function changeTab(direction){
 	var tabs = Array.prototype.slice.call(document.getElementsByClassName("tab"))
 	var tabButtons = Array.prototype.slice.call(document.getElementsByClassName("tabButton"))
@@ -167,11 +171,25 @@ function changeTab(direction){
 	setTab(document.getElementById(tabs[targetTab].id+"TabButton"), tabs[targetTab].id)
 } 
 
+function changeTabNum(number){
+	var tabs = Array.prototype.slice.call(document.getElementsByClassName("tab"))
+	var tabButtons = Array.prototype.slice.call(document.getElementsByClassName("tabButton"))
+	if((number-1)<tabs.length)
+	   if (!tabButtons[number-1].style.display.includes("none"))
+    	    setTab(document.getElementById(tabs[number-1].id+"TabButton"), tabs[number-1].id)
+
+}
 document.onkeydown =  function(e){
 	console.log(e.key)
 	if(e.key==" ") setPause() 
 	if(e.key=="ArrowRight") changeTab(1) 
 	if(e.key=="ArrowLeft") changeTab(-1) 
+	if(e.key=="1") changeTabNum(1) 
+	if(e.key=="2") changeTabNum(2) 
+	if(e.key=="3") changeTabNum(3) 
+	if(e.key=="4") changeTabNum(4) 
+	if(e.key=="l" || e.key=="L") document.getElementById("autoLearn").checked = !document.getElementById("autoLearn").checked
+	if(e.key=="p" || e.key=="P") document.getElementById("autoPromote").checked = !document.getElementById("autoPromote").checked
 }
 
 
@@ -200,11 +218,11 @@ function updateUI() {
 //	document.getElementById("debug").style.display = "none"
 //	document.getElementById("timeWarping").style.display = "none"
 //	document.getElementById("moneyDisplay").textContent = "$"+Math.floor(gameData.player.money)
-	var jobCompletionPercentage = gameData.currentJob.xp/ gameData.currentJob.getMaxXp()
-    document.getElementById("currentJobDisplay").textContent = gameData.currentJob.name	 + " " + gameData.currentJob.level +"." + ((jobCompletionPercentage<0.095)?"0":"") + (jobCompletionPercentage*100).toFixed(0)
+	//var jobCompletionPercentage = gameData.currentJob.xp/ gameData.currentJob.getMaxXp()
+    //document.getElementById("currentJobDisplay").textContent = gameData.currentJob.name	 + " " + gameData.currentJob.level +"." + ((jobCompletionPercentage<0.095)?"0":"") + (jobCompletionPercentage*100).toFixed(0)
 	
-	var skillCompletionPercentage = gameData.currentSkill.xp/ gameData.currentSkill.getMaxXp()
-	document.getElementById("currentSkillDisplay").textContent = gameData.currentSkill.name	 + " " + gameData.currentSkill.level +"." + ((skillCompletionPercentage<0.095)?"0":"") + (skillCompletionPercentage*100).toFixed(0)
+	//var skillCompletionPercentage = gameData.currentSkill.xp/ gameData.currentSkill.getMaxXp()
+	//document.getElementById("currentSkillDisplay").textContent = gameData.currentSkill.name	 + " " + gameData.currentSkill.level +"." + ((skillCompletionPercentage<0.095)?"0":"") + (skillCompletionPercentage*100).toFixed(0)
 	document.getElementById("moneyDisplay").textContent = "$"+format(gameData.money,2)
 	document.getElementById("ageDisplay").textContent = Math.floor(gameData.days/365) 
 	document.getElementById("dayDisplay").textContent = (gameData.days%365).toFixed(0)
@@ -232,6 +250,9 @@ function updateUI() {
 	updateStatRows()
 	updateRequiredRows(gameData.taskData, jobCategories)
 	updateRequiredRows(gameData.taskData, skillCategories)
+
+	updateQuickTaskDisplay("job")
+    updateQuickTaskDisplay("skill")
 //	updateRequiredRows(gameData.taskData, statCategories)
 
 	//element.classList.add("w3-blue-gray")
@@ -312,8 +333,13 @@ function updateRequiredRows(data, categoryType) {
 				}
 				if("money" in requirement){
 					var text = " $" + format(gameData.money,2) + "/" + format(requirement.money,2) + ","
-					
+						
 				}
+				if("stat" in requirement){
+					//console.log(gameData.stats[requirement.stat].value , requirement.requirement)
+					var text = requirement.stat+" "+gameData.stats[requirement.stat].value +"/"+ requirement.requirement+ ","
+					}
+									//	" $" + format(gameData.money,2) + "/" + format(requirement.money,2) + ","
 				finalText += text
 			}
 			finalText = finalText.substring(0, finalText.length - 1)

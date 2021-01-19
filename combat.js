@@ -47,9 +47,12 @@ function fightVillain(){
 				console.log(sp, sp in gameData.superpowers)
 				if(sp in gameData.superpowers)
 					gameData.superpowers[sp].level +=1
-				else
+				else{
 					gameData.superpowers[sp] = AbsorbPower(gameData.villains[gameData.currentVillain].superpowers[sp])
+					superPowerMultipliers(sp)
+				}
 			}
+
 			if(gameData.villainWin == "loose")
 				{
 					//easier to write one equal than two. But then I came to write this stupid comment!
@@ -85,17 +88,20 @@ function newHenchman(){
 }
 
 function fightHenchman(){
-	if(fight(gameData.henchman))
+	while(gameData.henchmanCount>0 )
 	{
-		var combatXP =0;
-		statCategories["Base stats"].forEach(function(stat){combatXP+=gameData.henchman.stats[stat].value})
-		//console.log(CombatXP)
-		gameData.taskData["Combat Experience"].increaseXp(combatXP/applySpeed(1))
-		
-		gameData.henchmanCount = 0
+		var result = fight(gameData.henchman)
+		if (result>0){
+			var combatXP =0;
+			statCategories["Base stats"].forEach(function(stat){combatXP+=gameData.henchman.stats[stat].value})
+			gameData.taskData["Combat Experience"].increaseXp(combatXP*
+				gameData.taskData["Combat Experience"].getMaxLevelMultiplier()/
+				applySpeed(1))
+			gameData.henchmanCount -= 1
+		}
 		
 	}
-	else
+	if(result <0)
 		gameData.alive=false
 }
 
