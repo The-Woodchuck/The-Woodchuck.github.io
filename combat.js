@@ -63,9 +63,9 @@ function fightVillain(){
 					gameData.villains[gameData.currentVillain] = newVillain(gameData.villains[gameData.currentVillain].tier)
 				}
 				if(gameData.villainWin == "kill")
-					gameData.aligment -= 1
-					if(gameData.villainWin == "imprison")
-					gameData.aligment += 1
+					gameData.alignment -= 1
+				if(gameData.villainWin == "imprison")
+					gameData.alignment += 1
 				gameData.currentVillain = -1	
 			}
 			else

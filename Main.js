@@ -511,10 +511,19 @@ function setRequirements(){
 		"Commissioner": new TaskRequirement([getTaskElement("Commissioner")], [{task: "Instructor", requirement: 10}]),
 		
 		"Soccer coach": new TaskRequirement([getTaskElement("Soccer coach")], [{stat: "Endurance", requirement: 10}]),
-		"Personal trainer": new TaskRequirement([getTaskElement("Personal trainer")], [{task: "Soccer coach", requirement: 10}]),
+		"Professional curler": new TaskRequirement([getTaskElement("Professional curler")], [{task: "Soccer coach", requirement: 10}]),
+		"Personal trainer": new TaskRequirement([getTaskElement("Personal trainer")], [{task: "Professional curler", requirement: 10}]),
 		"Martial arts instructor": new TaskRequirement([getTaskElement("Martial arts instructor")], [{task: "Personal trainer", requirement: 10}]),
 		"Crossfit champion": new TaskRequirement([getTaskElement("Crossfit champion")], [{task: "Martial arts instructor", requirement: 10}]),
+
+		"Massage therapist": new TaskRequirement([getTaskElement("Massage therapist")], [{alignment:"", requirement: 10}]),
+		"Nursing assistant": new TaskRequirement([getTaskElement("Nursing assistant")], [{task: "Massage therapist", requirement: 10},{alignment:"", requirement: 10}]),
+		"Nurse": new TaskRequirement([getTaskElement("Nurse")], [{task: "Nursing assistant", requirement: 10},{alignment:"", requirement: 10}]),
 		
+		"Dentist": new TaskRequirement([getTaskElement("Dentist")], [{task: "Nurse", requirement: 10},{alignment:"", requirement: 10}]),
+		"Doctor": new TaskRequirement([getTaskElement("Doctor")], [{task: "Dentist", requirement: 10},{alignment:"", requirement: 10}]),
+		
+
 		"Concentration": new TaskRequirement([getTaskElement("Concentration")], []),
 		"Reading": new TaskRequirement([getTaskElement("Reading")], [{task: "Concentration", requirement: 10}]),
 		"Writing": new TaskRequirement([getTaskElement("Writing")], [{task: "Reading", requirement: 10}]),

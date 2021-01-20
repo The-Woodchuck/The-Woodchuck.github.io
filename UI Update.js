@@ -82,7 +82,7 @@ function updateStatRows() {
 	}
 
 	if(!document.getElementById("autoFightVillain").checked){
-		hideShowElements(gameData.currentVillain >=0, [document.getElementsByClassName("fightVillainButton")])
+		hideShowElements(gameData.currentVillain >=0, [document.getElementById("fightVillainButton")])
 		hideShowElements(gameData.currentVillain >=0, document.getElementsByClassName("villainlevel"))
 
 	}
@@ -196,12 +196,11 @@ document.onkeydown =  function(e){
 function hideEntities() {
 	try {
 
-		for (key in gameData.requirements) {
+		for (var key in gameData.requirements) {
 			var requirement = gameData.requirements[key]
 			var completed = requirement.isCompleted()
 			for (element of requirement.elements) {
 				if (completed) {
-					//console.log(element)
 					element.classList.remove("hidden")
 				} else {
 					element.classList.add("hidden")
@@ -231,8 +230,8 @@ function updateUI() {
 	document.getElementById("netDisplay").textContent =     "$"+format(getIncome()-getExpenses(),2)		
 	document.getElementById("energyDisplay").textContent =     getEnergy().toFixed(1)	
 	document.getElementById("pauseButton").textContent = gameData.paused ? "Resume" : "Pause"
-	document.getElementById("alignmentDisplay").textContent = gameData.aligment > 0? gameData.aligment + " Good": gameData.aligment + " Evil" 
-	if(	gameData.aligment > 0){
+	document.getElementById("alignmentDisplay").textContent = gameData.alignment > 0? gameData.alignment + " Good": gameData.alignment + " Evil" 
+	if(	gameData.alignment > 0){
 		document.getElementById("alignmentDisplay").classList.add("expense")
 		document.getElementById("alignmentDisplay").classList.remove("income")
 	}
@@ -241,7 +240,7 @@ function updateUI() {
 		document.getElementById("alignmentDisplay").classList.add("income")
 
 	}
-	if(	gameData.aligment == 0)
+	if(	gameData.alignment == 0)
 		document.getElementById("alignmentDiv").classList.add("hidden")
 	else	
 		document.getElementById("alignmentDiv").classList.remove("hidden")
@@ -336,7 +335,6 @@ function updateRequiredRows(data, categoryType) {
 						
 				}
 				if("stat" in requirement){
-					//console.log(gameData.stats[requirement.stat].value , requirement.requirement)
 					var text = requirement.stat+" "+gameData.stats[requirement.stat].value +"/"+ requirement.requirement+ ","
 					}
 									//	" $" + format(gameData.money,2) + "/" + format(requirement.money,2) + ","
@@ -376,13 +374,8 @@ function createAllRows(categoryType, tableId) {
 		headerIndex += 1
         var headerRow = createHeaderRow(templates, categoryType, categoryName,headerIndex)
         table.appendChild(headerRow)
-		/*
-		if(categoryType != statCategories){
-			var maxLevel = headerRow.getElementsByClassName("maxLevel")[0]
-			gameData.rebirthOneCount > 0 ? maxLevel.classList.remove("hidden") : maxLevel.classList.add("hidden")
-        }
-			*/
-        var category = categoryType[categoryName]
+
+		var category = categoryType[categoryName]
         category.forEach(function(name) {
             var row = createRow(templates, name, categoryName, categoryType)
             table.appendChild(row)       
@@ -395,18 +388,25 @@ function createAllRows(categoryType, tableId) {
     }
 }
 function headerClick(name){
-//	console.log(name)
 	hidden = !document.getElementById("header "+name).textContent.includes("-")
-	if (name in jobCategories)
+	if (name in jobCategories){
 		jobCategories[name].forEach(function(item,index){
 			document.getElementById("row "+item).style.display= hidden ? "" : "none" 
 		})
-	if (name in skillCategories)
+		//required row
+		document.getElementById(name).style.display = hidden ? "" : "none" 
+	}
+	if (name in skillCategories){
 		skillCategories[name].forEach(function(item,index){
 			document.getElementById("row "+item).style.display= hidden ? "" : "none" 
 		})
-	
-	document.getElementById(name).style.display = hidden ? "" : "none" 
+		//required row
+		document.getElementById(name).style.display = hidden ? "" : "none" 
+	}
+		if (name in statCategories)
+		statCategories[name].forEach(function(item,index){
+			document.getElementById("row "+item).style.display= hidden ? "" : "none" 
+		})
 	document.getElementById("header "+name).children[0].textContent = hidden ? "-"+name : "+"+name 
 	
 }

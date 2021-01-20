@@ -24,7 +24,7 @@ var gameData = {
     villains: [],
     villainWin : "",
     combatXP: 0,
-    aligment: 0,
+    alignment: 0,
     autoLearnTarget: "level",
     villainTier: 1,
     superpowers:{},
@@ -67,44 +67,35 @@ const units = ["", "k", "M", "B", "T", "q", "Q", "Sx", "Sp", "Oc"];
 const jobBaseData = {
 	
 	"Beggar": {name: "Beggar", maxXp: 50, income: 0, effect:0.01, description: "Income"},
-	
 	"Beach bum": {name: "Beach bum", maxXp: 200, income: 0, effect:0.01, description: "Income"},
-
 	"Trust fund kid": {name: "Trust fund kid", maxXp: 500, income: 0,  effect:0.01, description: "Income"},
 	
     "Journalist": {name: "Journalist", maxXp: 100, income: 5, effect:0.01, description: "CrimeFind"},
-	
     "Editor": {name: "Editor", maxXp: 200, income: 9, effect:0.01, description: "CrimeFind"},
-	
     "Newspaper magnate": {name: "Newspaper magnate", maxXp: 800, income: 20, effect:0.01, description: "VillainFind"},
-
 	"Hacker": {name: "Hacker", maxXp: 2000, income: 50, effect:0.01, description: "CrimeFind"},
-	
 	"Internet controller": {name: "Internet controller", maxXp: 50000, income: 1000,  effect:0.01, description: ""},
-    
 
     "Trainee": {name: "Trainee", maxXp: 100, income: 10, effect:0.01, description: "Weapons"},
-
     "Officer": {name: "Officer", maxXp: 300, income: 10, effect:0.01, description: "Weapons"},
-
     "Detective": {name: "Detective", maxXp: 500, income: 20, effect:0.01, description: "Weapons"},
-	
     "SWAT": {name: "SWAT", maxXp: 1000, income: 40, effect:0.01, description: "Weapons"},
-	
     "Captain": {name: "Captain", maxXp: 2000, income: 100, effect:0.0, description: "Weapons"},
-	
 	"Instructor": {name: "Instructor", maxXp: 5000, income: 200,   effect:0.01, description: "Weapons"},
-	
 	"Commissioner": {name: "Commissioner", maxXp: 500000, income: 1000,  effect:0.01, description: ""},
 
-	"Soccer coach": {name: "Soccer coach", maxXp: 100, income: 10, effect:0.01, description: "Endurance"},
-
-	"Personal trainer": {name: "Personal trainer", maxXp: 200, income: 15,  effect:0.01, description: "Strength"},
-	
+    "Soccer coach": {name: "Soccer coach", maxXp: 100, income: 10, effect:0.01, description: "Endurance"},
+	"Professional curler": {name: "Professional curler", maxXp: 200, income: 15, effect:0.01, description: "Endurance"},
+	"Personal trainer": {name: "Personal trainer", maxXp: 500, income: 25,  effect:0.01, description: "Strength"},
 	"Martial arts instructor": {name: "Martial arts instructor", maxXp: 5000, income: 100,   effect:0.01, description: "CombatXP"},
-	
-	"Crossfit champion" : {name: "Crossfit champion", maxXp: 50000, income: 1000, effect:0.01, description: ""}
-	
+	"Crossfit champion" : {name: "Crossfit champion", maxXp: 50000, income: 1000, effect:0.01, description: ""},
+
+    "Massage therapist" : {name: "Massage therapist", maxXp: 1000, income: 10, effect:0.00001, description: "Good"},
+    "Nursing assistant" : {name: "Nursing assistant", maxXp: 2000, income: 20, effect:0.00001, description: "Good"},
+    "Nurse" :             {name: "Nurse",             maxXp: 5000, income: 50, effect:0.00001, description: "Good"},
+    "Dentist" :           {name: "Dentist",           maxXp: 20000, income: 100, effect:0.00001, description: "Good"},
+    "Doctor" :            {name: "Doctor",            maxXp: 50000, income: 200, effect:0.00001, description: "Combat regen"}
+
 }
 
 const skillBaseData = {
@@ -152,7 +143,8 @@ const jobCategories = {
     "Unemployed": ["Beggar","Beach bum", "Trust fund kid"],
     "Media": ["Journalist", "Editor", "Newspaper magnate", "Hacker", "Internet controller"],
     "Police" : ["Trainee", "Officer", "Detective", "SWAT", "Captain", "Instructor", "Commissioner"],
-    "Fitness" : ["Soccer coach", "Personal trainer", "Martial arts instructor", "Crossfit champion"]
+    "Fitness" : ["Soccer coach", "Professional curler","Personal trainer", "Martial arts instructor", "Crossfit champion"],
+    "Medical": [    "Massage therapist", "Nursing assistant", "Nurse", "Dentist",  "Doctor"]
 }
 
 const formatAsPercentage = ["Henchman find","Villain find"]

@@ -65,6 +65,8 @@ class Job extends Task {
     }
 
     getEffect() {
+        if(this.baseData.description == "Good")
+            return 0 + this.baseData.effect * this.level
         var effect = 1 + this.baseData.effect * this.level
         return effect
     }
@@ -85,6 +87,7 @@ class Skill extends Task {
     }
 
     getEffect() {
+
 		if(this.baseData.effect<0.5)
 			var effect = 1 + this.baseData.effect * this.level
 		else
@@ -162,8 +165,13 @@ class TaskRequirement extends Requirement {
 		if("money" in requirement)
 			return gameData.money >= requirement.money
         if("stat" in requirement)
-			return gameData.stats[requirement.stat] >= requirement.requirement
-		return false
+			return gameData.stats[requirement.stat].value >= requirement.requirement
+        if("alignment" in requirement && requirement.requirement >0)
+            return gameData.alignment >= requirement.requirement
+
+        if("alignment" in requirement && requirement.requirement <0)
+            return gameData.alignment <= requirement.requirement
+        return false
 			
     }
 }

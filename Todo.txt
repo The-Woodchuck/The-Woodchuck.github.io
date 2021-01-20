@@ -2,10 +2,10 @@ Since my //Todo does not show up on Github this does not need a // and just is a
 
 ----------Bugs-------------------
 Make sure currency is rounded down and costs rounded up
-Fix header collapse on crime table
-Apply applyspeed to spawn chance
-Combat XP maxlevel modifier
-Combat XP skill xp modifier
+Combat XP from martial arts
+Combat regen from dr 
+Make sure combat exits after 50 rounds
+
 
 ----------UI---------------------
 Scroll divs rather than page
@@ -15,10 +15,8 @@ When you change tabs remember the last scroll position of that tab.
 A page to show some stats about the game. ie how many rebirths.
 Add somewhere to see multipliers for skills/Jobs
 If net income is negative, show years till bankruptcy
-Done Add a $ for income per day
 It would be nice if, instead of just a skip checkbox on skills, you could input a max level, so you can easierly plan to powerlevel some skills
 If possible,  making the sidebar (that displays the players age and income) be something like  position: fixed; top: #px; left: #px; z-index: # (where # is whatever number looks right).  The top tabs as well. This removes the elements from the normal document flow, (it makes them "stick in place" when the user scrolls). This way when the player scrolls down that important information will always be viewable. (The other elements will have to have some sort of margin-top and margin-left to space out correctly and not overlap the fixed elements).
-Remove currentSkillDisplay+job
 Replace XP left with progress
 
 
