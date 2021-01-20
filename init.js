@@ -4,7 +4,7 @@ var gameData = {
 	taskData: {},
 		currentJob: null,
 		currentSkill: null,
-	stats:{
+	stats:{ Name : {"name":"Name", "value":"The Woodchuck"}
 	},
 	player : {
 		
@@ -147,11 +147,11 @@ const jobCategories = {
     "Medical": [    "Massage therapist", "Nursing assistant", "Nurse", "Dentist",  "Doctor"]
 }
 
-const formatAsPercentage = ["Henchman find","Villain find"]
+//const formatAsPercentage = ["Henchman find","Villain find"]
 
 const statCategories = {
 	"Base stats": ["Intelligence", "Endurance", ,"Strength", "Speed","Dexterity"],
-	"Combat stats": ["Henchman find","Villain find","Hit points","Min damage","Max damage","Attack speed"]
+	"Combat stats": ["Name","Superpowers","Henchman find","Villain find","Hit points","Min damage","Max damage","Attack speed"]
 
 }
 

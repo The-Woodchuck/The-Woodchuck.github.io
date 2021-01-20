@@ -5,6 +5,7 @@ Make sure currency is rounded down and costs rounded up
 Combat XP from martial arts
 Combat regen from dr 
 Make sure combat exits after 50 rounds
+Add good earn
 
 
 ----------UI---------------------
@@ -75,7 +76,8 @@ Add villain fight mechanic
     Player can choose: kill (get evil point), imprison (get good point), let go (no points, but can absorb again)
     Kill/imprison. Spawn new villain of same tier, but 10% stronger. Receive if (villain tier) hero points for first kill of that tier
     
-    if first win in Tier 2 prestige, add he
+    if first win in Tier 2 prestige, add hero points
+
 Add superpowers
 
 Add tier 2 prestige 
@@ -111,7 +113,5 @@ xpDict[skill.name] = daysToNextLevel / nextLevelRelativeValue
 This takes the time to train the next level and the marginal value of the next level into account
 
 
-would it be easier to just say each level gives a 10% bonus to exp gained?
-like, 11 levels would be (11/10) + 1 = x2.1 versus +110%
-KrunksterToday at 14:49
-1%, not 10%, but yes I think that'd be a better wording
+Notify user of updates
+https://github.com/stampyzfanz/SharkGame/commit/bbcea8f24aee2a18807af221b227460d81ad7b92

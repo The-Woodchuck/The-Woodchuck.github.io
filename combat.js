@@ -79,6 +79,10 @@ function newHenchman(){
 			taskData: {},
 			stats:{}
 		}
+	henchman.stats.Name = {"name":"Name", "value":"Random Henchman #1"}
+	henchman.stats["Henchman find"] = ""
+	henchman.stats["Villain find"]  = ""
+	henchman.superpowers = []
 	createData(henchman.taskData, skillBaseData)
 	for(skill in henchman.taskData) {
 		henchman.taskData[skill].level = Math.max(1,Math.floor(sourceVillain.taskData[skill].level *(Math.random()*(0.6-0.2)+0.2)))
@@ -114,16 +118,31 @@ function TrainVillainSkills(villain){
 }
 
 function newVillain(tier){
-    var villain = {
+	var villainNumber = RandomInt(0,Villains[tier].length-1)
+	var sourceVillain = Villains[tier][villainNumber]
+	
+	var villain = {
+		name : sourceVillain.name,
         taskData: {},
-        XPperDay: tier*100,
+        XPperDay: 100**tier*sourceVillain.XPBonus,
 		stats:{},
-		tier:tier
+		tier:tier,
+		description: sourceVillain.backstory,
+		superpowers: {}
 	}
-	villain.superpowers = GetSuperPowers(tier,100**tier)
-    //createData(villain.taskData, jobBaseData)
-    createData(villain.taskData, skillBaseData)
-    XPperSkill = villain.XPperDay*(gameData.days - 18*365-1) / Object.keys(villain.taskData).length
+
+//	villain.superpowers = GetSuperPowers(tier,100**tier)
+	villain.stats["Henchman find"] = ""
+	villain.stats["Villain find"]  = ""
+
+	for(power in sourceVillain.powers)
+		villain.superpowers[ sourceVillain.powers[power]] = CreateSuperPower(sourceVillain.powers[power],100**tier)  
+	
+	villain.stats.Name =  {"name":"Name", "value":sourceVillain.name}
+	//gameData.stats.Name =  {"name":"Name", "value": "The Woodchuck"}
+	createData(villain.taskData, skillBaseData)
+
+	XPperSkill = villain.XPperDay*(gameData.days - 18*365-1) / Object.keys(villain.taskData).length
     for(skill in villain.taskData) {
         villain.taskData[skill].xp = XPperSkill
         villain.taskData[skill].increaseXp()

@@ -249,6 +249,11 @@ function calculatedStat(target, name, value){
 }
 
 function calcStats(target){
+	var superPowerConCat = []
+	for (i in target.superpowers)
+		superPowerConCat.push(i+" "+target.superpowers[i].level)
+	target.stats["Superpowers"] = {"name":"Superpowers", "value": 
+	superPowerConCat.join(", ")}
 	statCategories["Base stats"].forEach(function(stat){
 		target.stats[stat] = {"name":stat, "value":1}
 		var multi = 1

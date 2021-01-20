@@ -1,14 +1,3 @@
-class SuperPower{
-    constructor(name, target, level=0){
-        this.name = name
-        this.level = level
-        this.target = target
-    }
-    getEffect(){
-        return 1 + this.level*0.02
-
-    }
-}
 
 class Task {
     constructor(baseData) {

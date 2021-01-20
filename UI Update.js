@@ -47,27 +47,38 @@ function hideShowElements(HideShow, elements){
 
 }
 
+function updateStatElement(row, classname, value, key){
+	element = row.getElementsByClassName(classname)[0]
+	if(["Name","Superpowers"].includes(key)){
+		//console.log(value,key)
+		element.textContent = value
+	}
+	else
+		if(["Henchman find","Villain find"].includes(key)){
+			if((classname=="ownlevel")) 
+				element.textContent = format(100*value,2)+"%"
+			else
+				element.textContent = ""
+		}
+		else{
+			element.textContent = (Number.isInteger(value)?value:format(value,2))
+		}
+}
+
 function updateStatRows() {
     for (key in gameData.stats) {
+		var row = document.getElementById("row " + key)
 		var stat = gameData.stats[key].value
-		if (gameData.currentVillain>=0)
-			var villainstat = gameData.villains[gameData.currentVillain].stats[key].value
+		updateStatElement(row, "ownlevel", stat, key)
 
-        var row = document.getElementById("row " + key)
-        row.getElementsByClassName("ownlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*stat,2)+"%":(Number.isInteger(stat)?stat:format(stat,2))
+		if (gameData.currentVillain>=0){
+			var villainstat = gameData.villains[gameData.currentVillain].stats[key].value
+			updateStatElement(row, "villainlevel", villainstat, key)
+		}
 		if(gameData.henchmanCount>0){
 			var henchmanstat = gameData.henchman.stats[key].value
-			row.getElementsByClassName("henchmanlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*henchmanstat,2)+"%":(Number.isInteger(henchmanstat)?(henchmanstat):(format(henchmanstat,2)))
+			updateStatElement(row, "henchmanlevel", henchmanstat, key)
 		}
-
-		if(["Henchman find","Villain find"].includes(key)){
-//			if (gameData.currentVillain>=0)
-			row.getElementsByClassName("villainlevel")[0].textContent = ""
-			row.getElementsByClassName("henchmanlevel")[0].textContent = ""
-		}
-		else
-			if (gameData.currentVillain>=0)
-				row.getElementsByClassName("villainlevel")[0].textContent = formatAsPercentage.includes(key) ? format(100*villainstat,2)+"%":(Number.isInteger(villainstat)?villainstat:format(villainstat,2)) 
 	}
 	
 	hideShowElements(gameData.currentVillain>=0, document.getElementsByClassName("villainlevel"))
