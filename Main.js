@@ -94,7 +94,8 @@ function RandomInt(min, max) {
 
 function getEnergy()
 {
-	var Energy = 1
+	//decay energy after 50 years
+	var Energy = Math.min(1,50/(gameData.days/365))
 	for (taskName in skillBaseData) {
         var task = skillBaseData[taskName]
 		//console.log(task.description)
@@ -111,7 +112,10 @@ function getEnergy()
 
 function getIncome()
 {
-	return gameData.currentJob.getIncome()
+	var interest = gameData.money* gameData.taskData.Investing.getEffect()/365
+	if(gameData.money < 10000)
+	if (interest>0) console.log(gameData.money, interest, gameData.taskData.Investing.level,  gameData.taskData.Investing.getEffect())
+	return gameData.currentJob.getIncome() + interest
 }
 
 function getExpenses()
@@ -251,9 +255,10 @@ function calculatedStat(target, name, value){
 function calcStats(target){
 	var superPowerConCat = []
 	for (i in target.superpowers)
-		superPowerConCat.push(i+" "+target.superpowers[i].level)
+		if(target.superpowers[i].level>0)
+			superPowerConCat.push(i+" "+target.superpowers[i].level)
 	target.stats["Superpowers"] = {"name":"Superpowers", "value": 
-	superPowerConCat.join(", ")}
+	superPowerConCat.join("\n, ")}
 	statCategories["Base stats"].forEach(function(stat){
 		target.stats[stat] = {"name":stat, "value":1}
 		var multi = 1
@@ -301,7 +306,7 @@ function calcStats(target){
 function superPowerMultipliers(thisPower){
 	//superpowersthat boosts income
 //			for(sp in gameData.superpowers)
-	console.log(thisPower)
+	//console.log(thisPower)
 	for (taskName in gameData.taskData) {
 		var task = gameData.taskData[taskName]
 		if(gameData.superpowers[thisPower].target=="Income")
@@ -409,7 +414,15 @@ function rebirthReset() {
         task.xp = 0
     }
 
-    for (key in gameData.requirements) {
+    for (var powerName in gameData.superpowers) {
+		var power = gameData.superpowers[powerName]
+		power.maxLevel = Math.max(power.maxLevel, power.level)
+        //if (power.level > task.maxLevel) task.maxLevel = task.level
+        power.level = 0
+        power.xp = 0
+    }
+
+	for (key in gameData.requirements) {
         var requirement = gameData.requirements[key]
         if (requirement.completed && permanentUnlocks.includes(key)) continue
         requirement.completed = false
@@ -420,6 +433,18 @@ function rebirthReset() {
 	if(document.getElementById("autoPauseOnRebirth").checked)
 		gameData.paused = true
 
+}
+
+function isAlive() {
+	var deathText = document.getElementById("deathText")
+	
+    if (!gameData.alive) {
+        deathText.classList.remove("hidden")
+    }
+    else {
+        deathText.classList.add("hidden")
+    }
+    return gameData.alive
 }
 
 
@@ -483,6 +508,7 @@ createData(gameData.taskData, skillBaseData)
 createAllRows(jobCategories, "jobTable")
 createAllRows(skillCategories, "skillTable")
 createAllRows(statCategories, "statTable")
+setCustomEffects()
 
 loadGame()
 
@@ -490,7 +516,7 @@ if(gameData.villains.length == 0){
 	gameData.villains=[villain=newVillain(1)]
 	gameData.currentVillain = -1 
 }
-
+loadSuperPowers()
 
 gameData.autoLearnTarget== "level"?document.getElementById("autoLearnLowestLevel").checked=true:document.getElementById("autoLearnLevelsPerDay").checked=true
 
@@ -501,7 +527,7 @@ function setRequirements(){
 		"Beach bum": new TaskRequirement([getTaskElement("Beach bum")], [{money: 10_000},{task: "Beggar", requirement: 10}]),
 		"Trust fund kid": new TaskRequirement([getTaskElement("Trust fund kid")], [{money: 1_000_000},{task: "Beach bum", requirement: 10}]),
 		
-		"Journalist": new TaskRequirement([getTaskElement("Journalist")], [{stat: "Intelligence", requirement: 10}]),
+		"Journalist": new TaskRequirement([getTaskElement("Journalist")], [{task: "Writing", requirement: 10}]),
 		"Editor": new TaskRequirement([getTaskElement("Editor")],  [{task: "Journalist", requirement: 10}]),
 		"Newspaper magnate": new TaskRequirement([getTaskElement("Newspaper magnate")],  [{task: "Editor", requirement: 10}]),
 		"Hacker": new TaskRequirement([getTaskElement("Hacker")],  [{task: "Newspaper magnate", requirement: 10}]),
@@ -547,6 +573,8 @@ function setRequirements(){
 		
 		"Juggling": new TaskRequirement([getTaskElement("Juggling")], [{task: "Fitness plan", requirement: 10}]),
 		"Combat Experience": new TaskRequirement([getTaskElement("Combat Experience")], []),
+
+		"Investing": new TaskRequirement([getTaskElement("Investing")], [{power: "Rich", requirement:10}]),
 		
 	}
 }

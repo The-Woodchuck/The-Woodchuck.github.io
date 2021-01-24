@@ -6,7 +6,6 @@ class Task {
         this.level = 0
         this.maxLevel = 0 
         this.xp = 0
-
         this.xpMultipliers = [
         ]
     }
@@ -76,7 +75,8 @@ class Skill extends Task {
     }
 
     getEffect() {
-
+        //if(this.name == "Investing")
+         //   return this.level == 0 ? 0 : (15*this.level+30)/(this.level+30)/100 
 		if(this.baseData.effect<0.5)
 			var effect = 1 + this.baseData.effect * this.level
 		else
@@ -86,6 +86,8 @@ class Skill extends Task {
 
     getEffectDescription() {
         var description = this.baseData.description
+        if(this.name == "Investing")
+            return  "+" + String((100*this.getEffect()).toFixed(2)) + "% " + description
 		if(this.baseData.effect<0.5)
 			var text = "x" + String(this.getEffect().toFixed(2)) + " " + description
 		else
@@ -150,11 +152,14 @@ class TaskRequirement extends Requirement {
     getCondition(requirement) {
 		if("task" in requirement)
 			return gameData.taskData[requirement.task].level >= requirement.requirement
-		//if("stat" in requirement)
 		if("money" in requirement)
 			return gameData.money >= requirement.money
         if("stat" in requirement)
 			return gameData.stats[requirement.stat].value >= requirement.requirement
+        if("power" in requirement)
+     //       console.log(requirement, requirement.power, gameData.superpowers[requirement.power].level, requirement.requirement)
+            return gameData.superpowers[requirement.power].level >= requirement.requirement
+        
         if("alignment" in requirement && requirement.requirement >0)
             return gameData.alignment >= requirement.requirement
 

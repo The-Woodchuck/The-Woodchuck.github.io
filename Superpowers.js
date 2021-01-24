@@ -1,11 +1,30 @@
 
 class SuperPower{
-    constructor(name, target, level=0, description=""){
+    constructor(name, target, level=0, maxLevel = 0, description=""){
         this.name = name
         this.level = level
+        this.maxLevel = maxLevel
         this.target = target
         this.description = description
+        this.xp = 0
     }
+    getMaxXp(){
+        var maxXp = Math.round(100 * (this.level + 1) * Math.pow(1.01, this.level))
+        return maxXp
+
+    }
+    AbsorbPower(levels=1){
+        this.xp += levels * 100 * (1 + this.maxLevel / 10)
+        if (this.xp >= this.getMaxXp()) {
+            var excess = this.xp - this.getMaxXp()
+            while (excess >= 0) {
+                this.level += 1
+                excess -= this.getMaxXp()
+            }
+            this.xp = this.getMaxXp() + excess
+      }
+    }
+
     getEffect(){
         return 1 + this.level*0.02
     }
@@ -25,27 +44,24 @@ const superpowers = {
     "Vampiric":             new SuperPower("Vampiric","HP Steal",1)
 }
 
+function loadSuperPowers(){
+    for(sp in superpowers)
+    if(!(sp in gameData.superpowers))
+        gameData.superpowers[sp] = CreateSuperPower(sp, 0)
+
+}
 
 function CreateSuperPower(name, level = 1 ){
     var sourcePower = superpowers[name]
-    return new SuperPower(sourcePower.name, sourcePower.target, level, sourcePower.description)
+    return new SuperPower(sourcePower.name, sourcePower.target, level, 0, sourcePower.description)
 }
 
 function GetSuperPowers(number, level){
-/*    const superpowers = [
-        new SuperPower("Super strength","Strength",level),
-        new SuperPower("Super intelligence","Intelligence",level),
-        new SuperPower("Super endurance","Endurance",level),
-        new SuperPower("Rich","Income",level)
-    ]
-  */
    var result = {}
    var powernames = Object.keys(superpowers)
    
     for(i=1;i<=number;i++){
         var newPower=superpowers[powernames[RandomInt(0,powernames.length-1)]]
- //       var newPower=superpowers[3]
-       // newPower.level = level
         if (!(newPower.name in result))
             result[newPower.name]=newPower
         else

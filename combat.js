@@ -1,7 +1,7 @@
 function debugBoostPlayer(){
 	for (skillName in gameData.taskData) 
 		if(gameData.taskData[skillName] instanceof Skill){
-			gameData.taskData[skillName].maxLevel+=50
+			gameData.taskData[skillName].maxLevel+=200
 		}
 	gameData.rebirthOneCount = Math.max(1, gameData.rebirthOneCount)
 }
@@ -44,13 +44,16 @@ function fightVillain(){
 			
 			gameData.statistics.villainsThisRebirth+=1
 			for( let sp in gameData.villains[gameData.currentVillain].superpowers) {
-				console.log(sp, sp in gameData.superpowers)
-				if(sp in gameData.superpowers)
-					gameData.superpowers[sp].level +=1
-				else{
-					gameData.superpowers[sp] = AbsorbPower(gameData.villains[gameData.currentVillain].superpowers[sp])
-					superPowerMultipliers(sp)
-				}
+				//console.log(sp, sp in gameData.superpowers)
+				gameData.superpowers[sp].AbsorbPower()
+				//console.log(gameData.superpowers[sp])
+				//if(sp in gameData.superpowers)
+				//	gameData.superpowers[sp].level +=1
+				//else{
+				//	gameData.superpowers[sp] = AbsorbPower(gameData.villains[gameData.currentVillain].superpowers[sp])
+				//this can probably only be done once as part of load	
+				superPowerMultipliers(sp)
+				//}
 			}
 
 			if(gameData.villainWin == "loose")

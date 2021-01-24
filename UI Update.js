@@ -1,14 +1,3 @@
-function isAlive() {
-	
-    var deathText = document.getElementById("deathText")
-    if (!gameData.alive) {
-        deathText.classList.remove("hidden")
-    }
-    else {
-        deathText.classList.add("hidden")
-    }
-    return gameData.alive
-}
 
 
 //UI
@@ -193,8 +182,8 @@ function changeTabNum(number){
 document.onkeydown =  function(e){
 	console.log(e.key)
 	if(e.key==" ") setPause() 
-	if(e.key=="ArrowRight") changeTab(1) 
-	if(e.key=="ArrowLeft") changeTab(-1) 
+	if(e.key=="ArrowRight") if(document.activeElement.className != "levelskipbox") changeTab(1) 
+	if(e.key=="ArrowLeft") if(document.activeElement.className != "levelskipbox") changeTab(-1) 
 	if(e.key=="1") changeTabNum(1) 
 	if(e.key=="2") changeTabNum(2) 
 	if(e.key=="3") changeTabNum(3) 

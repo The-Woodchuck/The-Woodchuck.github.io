@@ -96,6 +96,7 @@ const jobBaseData = {
     "Dentist" :           {name: "Dentist",           maxXp: 20000, income: 100, effect:0.00001, description: "Good"},
     "Doctor" :            {name: "Doctor",            maxXp: 50000, income: 200, effect:0.00001, description: "Combat regen"}
 
+
 }
 
 const skillBaseData = {
@@ -120,10 +121,12 @@ const skillBaseData = {
     "Juggling": {name: "Juggling", maxXp: 100, effect: 1, description: "Dexterity"},
     
     "Combat Experience": {name: "Combat Experience", maxXp: 100, effect: 0.01, description: "Combat"},
+
+    "Investing": {name: "Investing", maxXp: 10000, effect: 0.01, description: "Interest"},
 	
 }
 const skillCategories = {
-	"Mental": ["Concentration", "Reading", "Writing", "Meditation", "Reading Sherlock Holmes"],
+	"Mental": ["Concentration", "Reading", "Writing", "Meditation", "Reading Sherlock Holmes","Investing"],
 	
 	"Physical": ["Fitness plan", "Jogging","Running", "Speed punches", "Sprinting", "Push-ups", "Pull-ups","Juggling"],
 	"Combat": ["Combat Experience"],
@@ -200,6 +203,18 @@ const tooltips = {
     "Instructor": "Teaching the new police how to handle weapons, provides another 1% bonus per level to weapons",
     "Commissioner": "Provides a special bonus to weapons of 1% multiplied by the sum of police levels minus the sum of other jobs levels",
 
+    "Concentration": "The ability to focus means you can learn skills quicker. Now to apply it to real skills, and not just looking at the orange juice concentrate.",
+    "Reading": "What do you know! You can get smarter byr rading books!",
+    "Writing": "The ability to write really helps when your job is to write.",
+
+    "Fitness plan": "The first step in getting fit - well maybe actual steps would be better, but at least now you have a plan.",
+    "Jogging": "Step 2 of getting fit. And 3, 4, 5... I'm tired can I rest now?",
+    "Speed punches": "Well, if we are gonna fight crime, we can start with punching stuff. Should I not punch a cow carcass?",
+    "Push-ups": "Push-ups only count if you go down AND up. Strength may be needed",
+    "Juggling": "Juggling increases your dexterity, which helps stuff like not stabbing yourself. Stabbing yourself is bad.",
+  
+    "Combat Experience": "WOW! Just wow. Fighting is a good way to get better at fighting!",
+
     "Soccer coach": "Not your typical superhero job, but it provides a 1% bonus per level to endurance.",
     "Personal trainer": "Helping the gym dudes with their roids - sorry, I mean form - gives you a 1% bonus per level to strength!",
     "Martial arts instructor": "1% per level to combat XP - beating people up for fun really pays off!",
@@ -224,4 +239,12 @@ const tooltips = {
     "Library": "Stores a collection of books, each containing vast amounts of information from basic life skills to complex magic spells.",
 	
 	"Endurance": "You get 10 hitpoints per endurance (before multipliers). Endurance also provides a ln(endurance) boost to physical skill experience"
+}
+
+
+function setCustomEffects() {
+    var investing = gameData.taskData["Investing"]
+    investing.getEffect = function() {
+        return investing.level == 0 ? 0 : (15*investing.level+30)/(investing.level+30)/100 
+    }
 }

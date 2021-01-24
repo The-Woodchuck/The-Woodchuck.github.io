@@ -78,13 +78,10 @@ Add villain fight mechanic
     
     if first win in Tier 2 prestige, add hero points
 
-Add superpowers
-
 Add tier 2 prestige 
     reset tiers to allow more hero points
 
 Add hero points to be spent
-
 
 Add combat simulator on first death
 Add FAQ with unlocks as you unlock more mechanics
